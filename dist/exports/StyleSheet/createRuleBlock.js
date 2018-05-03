@@ -32,7 +32,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var createDeclarationString = function createDeclarationString(prop, val) {
   var name = (0, _hyphenateStyleName2.default)(prop);
   var value = (0, _normalizeValue2.default)(prop, val);
-  var flag = !name.startsWith('-') ? ' !important' : '';
+  var flag = !name.startsWith('-') && !name.startsWith('pointer-') ? ' !important' : '';
   if (Array.isArray(val)) {
     return val.map(function (v) {
       return name + ':' + v + flag;
