@@ -1,27 +1,10 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _createRuleBlock = require('./createRuleBlock');
-
-var _createRuleBlock2 = _interopRequireDefault(_createRuleBlock);
-
-var _createReactDOMStyle = require('./createReactDOMStyle');
-
-var _createReactDOMStyle2 = _interopRequireDefault(_createReactDOMStyle);
-
-var _i18nStyle = require('./i18nStyle');
-
-var _i18nStyle2 = _interopRequireDefault(_i18nStyle);
-
-var _hash = require('../../vendor/hash');
-
-var _hash2 = _interopRequireDefault(_hash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import createRuleBlock from './createRuleBlock';
+import createReactDOMStyle from './createReactDOMStyle';
+import i18nStyle from './i18nStyle';
+import hash from '../../vendor/hash';
 
 var hashObject = function hashObject(obj) {
-  return (0, _hash2.default)(JSON.stringify(obj));
+  return hash(JSON.stringify(obj));
 };
 
 var createIdentifier = function createIdentifier(obj) {
@@ -32,8 +15,8 @@ var createIdentifier = function createIdentifier(obj) {
 var prefixes = ['-webkit-', ''];
 
 var makeBlock = function makeBlock(rule) {
-  var domStyle = (0, _createReactDOMStyle2.default)((0, _i18nStyle2.default)(rule));
-  return (0, _createRuleBlock2.default)(domStyle);
+  var domStyle = createReactDOMStyle(i18nStyle(rule));
+  return createRuleBlock(domStyle);
 };
 
 var makeSteps = function makeSteps(keyframes) {
@@ -52,4 +35,4 @@ var createKeyframesRules = function createKeyframesRules(keyframes) {
   return { identifier: identifier, rules: rules };
 };
 
-exports.default = createKeyframesRules;
+export default createKeyframesRules;

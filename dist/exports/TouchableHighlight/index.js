@@ -1,71 +1,30 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-var _ColorPropType = require('../ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _createReactClass = require('create-react-class');
-
-var _createReactClass2 = _interopRequireDefault(_createReactClass);
-
-var _ensureComponentIsNative = require('../../modules/ensureComponentIsNative');
-
-var _ensureComponentIsNative2 = _interopRequireDefault(_ensureComponentIsNative);
-
-var _ensurePositiveDelayProps = require('../Touchable/ensurePositiveDelayProps');
-
-var _ensurePositiveDelayProps2 = _interopRequireDefault(_ensurePositiveDelayProps);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _reactTimerMixin = require('react-timer-mixin');
-
-var _reactTimerMixin2 = _interopRequireDefault(_reactTimerMixin);
-
-var _Touchable = require('../Touchable');
-
-var _Touchable2 = _interopRequireDefault(_Touchable);
-
-var _TouchableWithoutFeedback = require('../TouchableWithoutFeedback');
-
-var _TouchableWithoutFeedback2 = _interopRequireDefault(_TouchableWithoutFeedback);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; } /**
-                                                                                                                                                                                                                              * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                              * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                              *
-                                                                                                                                                                                                                              * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                              * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                              *
-                                                                                                                                                                                                                              * @providesModule TouchableHighlight
-                                                                                                                                                                                                                              * @noflow
-                                                                                                                                                                                                                              */
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import ColorPropType from '../ColorPropType';
+import createReactClass from 'create-react-class';
+import ensureComponentIsNative from '../../modules/ensureComponentIsNative';
+import ensurePositiveDelayProps from '../Touchable/ensurePositiveDelayProps';
+import React from 'react';
+import StyleSheet from '../StyleSheet';
+import TimerMixin from 'react-timer-mixin';
+import Touchable from '../Touchable';
+import TouchableWithoutFeedback from '../TouchableWithoutFeedback';
+import View from '../View';
+import ViewPropTypes from '../ViewPropTypes';
+import { func, number } from 'prop-types';
 
 var DEFAULT_PROPS = {
   activeOpacity: 0.85,
@@ -104,31 +63,31 @@ var PRESS_RETENTION_OFFSET = { top: 20, left: 20, right: 20, bottom: 30 };
  */
 
 /* eslint-disable react/prefer-es6-class */
-var TouchableHighlight = (0, _createReactClass2.default)({
+var TouchableHighlight = createReactClass({
   displayName: 'TouchableHighlight',
-  propTypes: Object.assign({}, _TouchableWithoutFeedback2.default.propTypes, {
+  propTypes: Object.assign({}, TouchableWithoutFeedback.propTypes, {
     /**
      * Determines what the opacity of the wrapped view should be when touch is
      * active.
      */
-    activeOpacity: _propTypes.number,
+    activeOpacity: number,
     /**
      * Called immediately after the underlay is hidden
      */
-    onHideUnderlay: _propTypes.func,
+    onHideUnderlay: func,
     /**
      * Called immediately after the underlay is shown
      */
-    onShowUnderlay: _propTypes.func,
-    style: _ViewPropTypes2.default.style,
+    onShowUnderlay: func,
+    style: ViewPropTypes.style,
     /**
      * The color of the underlay that will show through when the touch is
      * active.
      */
-    underlayColor: _ColorPropType2.default
+    underlayColor: ColorPropType
   }),
 
-  mixins: [_reactTimerMixin2.default, _Touchable2.default.Mixin],
+  mixins: [TimerMixin, Touchable.Mixin],
 
   getDefaultProps: function getDefaultProps() {
     return DEFAULT_PROPS;
@@ -158,8 +117,8 @@ var TouchableHighlight = (0, _createReactClass2.default)({
 
   componentDidMount: function componentDidMount() {
     this._isMounted = true;
-    (0, _ensurePositiveDelayProps2.default)(this.props);
-    (0, _ensureComponentIsNative2.default)(this._childRef);
+    ensurePositiveDelayProps(this.props);
+    ensureComponentIsNative(this._childRef);
   },
 
   componentWillUnmount: function componentWillUnmount() {
@@ -167,11 +126,11 @@ var TouchableHighlight = (0, _createReactClass2.default)({
   },
 
   componentDidUpdate: function componentDidUpdate() {
-    (0, _ensureComponentIsNative2.default)(this._childRef);
+    ensureComponentIsNative(this._childRef);
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    (0, _ensurePositiveDelayProps2.default)(nextProps);
+    ensurePositiveDelayProps(nextProps);
     if (nextProps.activeOpacity !== this.props.activeOpacity || nextProps.underlayColor !== this.props.underlayColor || nextProps.style !== this.props.style) {
       this.setState(this._computeSyntheticState(nextProps));
     }
@@ -276,8 +235,8 @@ var TouchableHighlight = (0, _createReactClass2.default)({
         pressRetentionOffset = _props.pressRetentionOffset,
         other = _objectWithoutProperties(_props, ['activeOpacity', 'onHideUnderlay', 'onShowUnderlay', 'underlayColor', 'delayLongPress', 'delayPressIn', 'delayPressOut', 'onLongPress', 'onPress', 'onPressIn', 'onPressOut', 'pressRetentionOffset']);
 
-    return _react2.default.createElement(
-      _View2.default,
+    return React.createElement(
+      View,
       _extends({}, other, {
         accessible: this.props.accessible !== false,
         onKeyDown: this.touchableHandleKeyEvent,
@@ -291,22 +250,22 @@ var TouchableHighlight = (0, _createReactClass2.default)({
         ref: this._setUnderlayRef,
         style: [styles.root, !this.props.disabled && styles.actionable, this.state.underlayStyle]
       }),
-      _react2.default.cloneElement(_react2.default.Children.only(this.props.children), {
+      React.cloneElement(React.Children.only(this.props.children), {
         ref: this._setChildRef
       }),
-      _Touchable2.default.renderDebugView({ color: 'green', hitSlop: this.props.hitSlop })
+      Touchable.renderDebugView({ color: 'green', hitSlop: this.props.hitSlop })
     );
   }
 });
 
 var INACTIVE_CHILD_PROPS = {
-  style: _StyleSheet2.default.create({ x: { opacity: 1.0 } }).x
+  style: StyleSheet.create({ x: { opacity: 1.0 } }).x
 };
 var INACTIVE_UNDERLAY_PROPS = {
-  style: _StyleSheet2.default.create({ x: { backgroundColor: 'transparent' } }).x
+  style: StyleSheet.create({ x: { backgroundColor: 'transparent' } }).x
 };
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   root: {
     userSelect: 'none'
   },
@@ -316,4 +275,4 @@ var styles = _StyleSheet2.default.create({
   }
 });
 
-exports.default = (0, _applyNativeMethods2.default)(TouchableHighlight);
+export default applyNativeMethods(TouchableHighlight);

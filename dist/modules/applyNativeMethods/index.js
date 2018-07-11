@@ -1,27 +1,21 @@
-'use strict';
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
-
-var _NativeMethodsMixin = require('../NativeMethodsMixin');
-
-var _NativeMethodsMixin2 = _interopRequireDefault(_NativeMethodsMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import NativeMethodsMixin from '../NativeMethodsMixin';
 
 var applyNativeMethods = function applyNativeMethods(Component) {
-  Object.keys(_NativeMethodsMixin2.default).forEach(function (method) {
+  Object.keys(NativeMethodsMixin).forEach(function (method) {
     if (!Component.prototype[method]) {
-      Component.prototype[method] = _NativeMethodsMixin2.default[method];
+      Component.prototype[method] = NativeMethodsMixin[method];
     }
   });
   return Component;
-}; /**
-    * Copyright (c) 2015-present, Nicolas Gallagher.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * @noflow
-    */
+};
 
-exports.default = applyNativeMethods;
+export default applyNativeMethods;

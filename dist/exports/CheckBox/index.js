@@ -1,44 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
-
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
-
-var _ColorPropType = require('../ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _createElement = require('../createElement');
-
-var _createElement2 = _interopRequireDefault(_createElement);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _UIManager = require('../UIManager');
-
-var _UIManager2 = _interopRequireDefault(_UIManager);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -46,16 +6,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @providesModule CheckBox
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Copyright (c) 2017-present, Nicolas Gallagher.
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import ColorPropType from '../ColorPropType';
+import createElement from '../createElement';
+import StyleSheet from '../StyleSheet';
+import UIManager from '../UIManager';
+import View from '../View';
+import ViewPropTypes from '../ViewPropTypes';
+import React, { Component } from 'react';
+import { bool, func } from 'prop-types';
 
 var CheckBox = function (_Component) {
   _inherits(CheckBox, _Component);
@@ -84,11 +55,11 @@ var CheckBox = function (_Component) {
   }
 
   CheckBox.prototype.blur = function blur() {
-    _UIManager2.default.blur(this._checkboxElement);
+    UIManager.blur(this._checkboxElement);
   };
 
   CheckBox.prototype.focus = function focus() {
-    _UIManager2.default.focus(this._checkboxElement);
+    UIManager.focus(this._checkboxElement);
   };
 
   CheckBox.prototype.render = function render() {
@@ -101,13 +72,13 @@ var CheckBox = function (_Component) {
         value = _props.value,
         other = _objectWithoutProperties(_props, ['color', 'disabled', 'onChange', 'onValueChange', 'style', 'value']);
 
-    var fakeControl = _react2.default.createElement(_View2.default, {
+    var fakeControl = React.createElement(View, {
       style: [styles.fakeControl, value && styles.fakeControlChecked,
       // custom color
       value && color && { backgroundColor: color, borderColor: color }, disabled && styles.fakeControlDisabled, value && disabled && styles.fakeControlCheckedAndDisabled]
     });
 
-    var nativeControl = (0, _createElement2.default)('input', {
+    var nativeControl = createElement('input', {
       checked: value,
       disabled: disabled,
       onChange: this._handleChange,
@@ -116,8 +87,8 @@ var CheckBox = function (_Component) {
       type: 'checkbox'
     });
 
-    return _react2.default.createElement(
-      _View2.default,
+    return React.createElement(
+      View,
       _extends({}, other, { style: [styles.root, style, disabled && styles.cursorDefault] }),
       fakeControl,
       nativeControl
@@ -125,23 +96,23 @@ var CheckBox = function (_Component) {
   };
 
   return CheckBox;
-}(_react.Component);
+}(Component);
 
 CheckBox.displayName = 'CheckBox';
 CheckBox.defaultProps = {
   disabled: false,
   value: false
 };
-CheckBox.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, _ViewPropTypes2.default, {
-  color: _ColorPropType2.default,
-  disabled: _propTypes.bool,
-  onChange: _propTypes.func,
-  onValueChange: _propTypes.func,
-  value: _propTypes.bool
+CheckBox.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, ViewPropTypes, {
+  color: ColorPropType,
+  disabled: bool,
+  onChange: func,
+  onValueChange: func,
+  value: bool
 }) : {};
 
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   root: {
     cursor: 'pointer',
     height: 16,
@@ -178,7 +149,7 @@ var styles = _StyleSheet2.default.create({
     backgroundColor: '#AAB8C2',
     borderColor: '#AAB8C2'
   },
-  nativeControl: Object.assign({}, _StyleSheet2.default.absoluteFillObject, {
+  nativeControl: Object.assign({}, StyleSheet.absoluteFillObject, {
     height: '100%',
     margin: 0,
     opacity: 0,
@@ -187,4 +158,4 @@ var styles = _StyleSheet2.default.create({
   })
 });
 
-exports.default = (0, _applyNativeMethods2.default)(CheckBox);
+export default applyNativeMethods(CheckBox);

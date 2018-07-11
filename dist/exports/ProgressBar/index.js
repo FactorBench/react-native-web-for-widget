@@ -1,36 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
-
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
-
-var _ColorPropType = require('../ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -38,15 +6,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @providesModule ProgressBar
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import ColorPropType from '../ColorPropType';
+import StyleSheet from '../StyleSheet';
+import View from '../View';
+import ViewPropTypes from '../ViewPropTypes';
+import React, { Component } from 'react';
+import { bool, number } from 'prop-types';
 
 var ProgressBar = function (_Component) {
   _inherits(ProgressBar, _Component);
@@ -96,8 +73,8 @@ var ProgressBar = function (_Component) {
 
     var percentageProgress = progress * 100;
 
-    return _react2.default.createElement(
-      _View2.default,
+    return React.createElement(
+      View,
       _extends({}, other, {
         accessibilityRole: 'progressbar',
         'aria-valuemax': '100',
@@ -105,7 +82,7 @@ var ProgressBar = function (_Component) {
         'aria-valuenow': indeterminate ? null : percentageProgress,
         style: [styles.track, style, { backgroundColor: trackColor }]
       }),
-      _react2.default.createElement(_View2.default, {
+      React.createElement(View, {
         ref: this._setProgressRef,
         style: [styles.progress, indeterminate && styles.animation, { backgroundColor: color }]
       })
@@ -113,7 +90,7 @@ var ProgressBar = function (_Component) {
   };
 
   return ProgressBar;
-}(_react.Component);
+}(Component);
 
 ProgressBar.displayName = 'ProgressBar';
 ProgressBar.defaultProps = {
@@ -122,15 +99,15 @@ ProgressBar.defaultProps = {
   progress: 0,
   trackColor: 'transparent'
 };
-ProgressBar.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, _ViewPropTypes2.default, {
-  color: _ColorPropType2.default,
-  indeterminate: _propTypes.bool,
-  progress: _propTypes.number,
-  trackColor: _ColorPropType2.default
+ProgressBar.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, ViewPropTypes, {
+  color: ColorPropType,
+  indeterminate: bool,
+  progress: number,
+  trackColor: ColorPropType
 }) : {};
 
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   track: {
     height: 5,
     overflow: 'hidden',
@@ -152,4 +129,4 @@ var styles = _StyleSheet2.default.create({
   }
 });
 
-exports.default = (0, _applyNativeMethods2.default)(ProgressBar);
+export default applyNativeMethods(ProgressBar);

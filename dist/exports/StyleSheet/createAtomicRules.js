@@ -1,16 +1,5 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _createKeyframesRules2 = require('./createKeyframesRules');
-
-var _createKeyframesRules3 = _interopRequireDefault(_createKeyframesRules2);
-
-var _createRuleBlock7 = require('./createRuleBlock');
-
-var _createRuleBlock8 = _interopRequireDefault(_createRuleBlock7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import createKeyframesRules from './createKeyframesRules';
+import createRuleBlock from './createRuleBlock';
 
 var createAtomicRules = function createAtomicRules(selector, prop, value) {
   var rules = [];
@@ -29,7 +18,7 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
           if (value === 'box-only') {
             var _createRuleBlock;
 
-            var _block = (0, _createRuleBlock8.default)((_createRuleBlock = {}, _createRuleBlock[prop] = 'none', _createRuleBlock));
+            var _block = createRuleBlock((_createRuleBlock = {}, _createRuleBlock[prop] = 'none', _createRuleBlock));
             rules.push(selector + ' > *{' + _block + '}');
           }
         } else if (value === 'none' || value === 'box-none') {
@@ -37,18 +26,18 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
           if (value === 'box-none') {
             var _createRuleBlock2;
 
-            var _block2 = (0, _createRuleBlock8.default)((_createRuleBlock2 = {}, _createRuleBlock2[prop] = 'auto', _createRuleBlock2));
+            var _block2 = createRuleBlock((_createRuleBlock2 = {}, _createRuleBlock2[prop] = 'auto', _createRuleBlock2));
             rules.push(selector + ' > *{' + _block2 + '}');
           }
         }
-        var block = (0, _createRuleBlock8.default)((_createRuleBlock3 = {}, _createRuleBlock3[prop] = val, _createRuleBlock3));
+        var block = createRuleBlock((_createRuleBlock3 = {}, _createRuleBlock3[prop] = val, _createRuleBlock3));
         rules.push(selector + '{' + block + '}');
         break;
       }
 
     case 'placeholderTextColor':
       {
-        var _block3 = (0, _createRuleBlock8.default)({ color: value, opacity: 1 });
+        var _block3 = createRuleBlock({ color: value, opacity: 1 });
         rules.push('@media all {' + (selector + '::-webkit-input-placeholder{' + _block3 + '}') + (selector + '::-moz-placeholder{' + _block3 + '}') + (selector + ':-ms-input-placeholder{' + _block3 + '}') + (selector + '::placeholder{' + _block3 + '}') + '}');
         break;
       }
@@ -59,7 +48,7 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
           var _createRuleBlock4;
 
           // add a className referencing the animation
-          var _block4 = (0, _createRuleBlock8.default)((_createRuleBlock4 = {}, _createRuleBlock4[prop] = value, _createRuleBlock4));
+          var _block4 = createRuleBlock((_createRuleBlock4 = {}, _createRuleBlock4[prop] = value, _createRuleBlock4));
           rules.push(selector + '{' + _block4 + '}');
         } else {
           var _createRuleBlock5;
@@ -71,7 +60,7 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
             if (typeof keyframes === 'string') {
               animationNames.push(keyframes);
             } else {
-              var _createKeyframesRules = (0, _createKeyframesRules3.default)(keyframes),
+              var _createKeyframesRules = createKeyframesRules(keyframes),
                   identifier = _createKeyframesRules.identifier,
                   keyframesRules = _createKeyframesRules.rules;
 
@@ -83,7 +72,7 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
           });
 
           // add a className referencing the animation identifiers
-          var _block5 = (0, _createRuleBlock8.default)((_createRuleBlock5 = {}, _createRuleBlock5[prop] = animationNames.join(','), _createRuleBlock5));
+          var _block5 = createRuleBlock((_createRuleBlock5 = {}, _createRuleBlock5[prop] = animationNames.join(','), _createRuleBlock5));
           rules.push(selector + '{' + _block5 + '}');
         }
 
@@ -94,7 +83,7 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
       {
         var _createRuleBlock6;
 
-        var _block6 = (0, _createRuleBlock8.default)((_createRuleBlock6 = {}, _createRuleBlock6[prop] = value, _createRuleBlock6));
+        var _block6 = createRuleBlock((_createRuleBlock6 = {}, _createRuleBlock6[prop] = value, _createRuleBlock6));
         rules.push(selector + '{' + _block6 + '}');
       }
   }
@@ -102,4 +91,4 @@ var createAtomicRules = function createAtomicRules(selector, prop, value) {
   return rules;
 };
 
-exports.default = createAtomicRules;
+export default createAtomicRules;

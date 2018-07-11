@@ -1,49 +1,28 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _applyLayout = require('../../modules/applyLayout');
-
-var _applyLayout2 = _interopRequireDefault(_applyLayout);
-
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
-
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
-
-var _propTypes = require('prop-types');
-
-var _react = require('react');
-
-var _createElement = require('../createElement');
-
-var _createElement2 = _interopRequireDefault(_createElement);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _TextPropTypes = require('./TextPropTypes');
-
-var _TextPropTypes2 = _interopRequireDefault(_TextPropTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @providesModule Text
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import applyLayout from '../../modules/applyLayout';
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import { bool } from 'prop-types';
+import { Component } from 'react';
+import createElement from '../createElement';
+import StyleSheet from '../StyleSheet';
+import TextPropTypes from './TextPropTypes';
 
 var Text = function (_Component) {
   _inherits(Text, _Component);
@@ -94,7 +73,7 @@ var Text = function (_Component) {
 
     var component = isInAParentText ? 'span' : 'div';
 
-    return (0, _createElement2.default)(component, otherProps);
+    return createElement(component, otherProps);
   };
 
   Text.prototype._createEnterHandler = function _createEnterHandler(fn) {
@@ -113,19 +92,19 @@ var Text = function (_Component) {
   };
 
   return Text;
-}(_react.Component);
+}(Component);
 
 Text.displayName = 'Text';
 Text.childContextTypes = {
-  isInAParentText: _propTypes.bool
+  isInAParentText: bool
 };
 Text.contextTypes = {
-  isInAParentText: _propTypes.bool
+  isInAParentText: bool
 };
-Text.propTypes = process.env.NODE_ENV !== "production" ? _TextPropTypes2.default : {};
+Text.propTypes = process.env.NODE_ENV !== "production" ? TextPropTypes : {};
 
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   initial: {
     borderWidth: 0,
     boxSizing: 'border-box',
@@ -163,4 +142,4 @@ var styles = _StyleSheet2.default.create({
   }
 });
 
-exports.default = (0, _applyLayout2.default)((0, _applyNativeMethods2.default)(Text));
+export default applyLayout(applyNativeMethods(Text));

@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2016-present, Nicolas Gallagher.
  *
@@ -23,4 +20,4 @@ var resets = [
 
 var reset = [safeRule(resets.join('\n'))];
 
-exports.default = reset;
+export default reset;

@@ -1,7 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
@@ -11,7 +7,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule Clipboard
  * 
  */
 
@@ -36,8 +31,9 @@ var Clipboard = function () {
       // add the text to a hidden node
       var node = document.createElement('span');
       node.textContent = text;
-      node.style.position = 'absolute';
       node.style.opacity = '0';
+      node.style.position = 'absolute';
+      node.style.whiteSpace = 'pre-wrap';
       body.appendChild(node);
 
       // select the text
@@ -64,4 +60,4 @@ var Clipboard = function () {
   return Clipboard;
 }();
 
-exports.default = Clipboard;
+export default Clipboard;

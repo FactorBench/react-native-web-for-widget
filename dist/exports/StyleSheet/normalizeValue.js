@@ -1,25 +1,19 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
-
-var _unitlessNumbers = require('../../modules/unitlessNumbers');
-
-var _unitlessNumbers2 = _interopRequireDefault(_unitlessNumbers);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import unitlessNumbers from '../../modules/unitlessNumbers';
 
 var normalizeValue = function normalizeValue(property, value) {
-  if (!_unitlessNumbers2.default[property] && typeof value === 'number') {
+  if (!unitlessNumbers[property] && typeof value === 'number') {
     value = value + 'px';
   }
   return value;
-}; /**
-    * Copyright (c) 2016-present, Nicolas Gallagher.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * @noflow
-    */
+};
 
-exports.default = normalizeValue;
+export default normalizeValue;

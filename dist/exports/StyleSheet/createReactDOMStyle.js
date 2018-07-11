@@ -1,16 +1,15 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
-
-var _normalizeValue = require('./normalizeValue');
-
-var _normalizeValue2 = _interopRequireDefault(_normalizeValue);
-
-var _processColor = require('../processColor');
-
-var _processColor2 = _interopRequireDefault(_processColor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import normalizeColor from '../../modules/normalizeColor';
+import normalizeValue from './normalizeValue';
+import resolveShadowValue from './resolveShadowValue';
 
 /**
  * The browser implements the CSS cascade, where the order of properties is a
@@ -21,15 +20,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * This module creates mutally exclusive style declarations by expanding all of
  * React Native's supported shortform properties (e.g. `padding`) to their
  * longfrom equivalents.
- */
-
-/**
- * Copyright (c) 2016-present, Nicolas Gallagher.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @noflow
  */
 
 var emptyObject = {};
@@ -46,7 +36,6 @@ var styleShortFormProperties = {
   padding: ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   paddingHorizontal: ['paddingRight', 'paddingLeft'],
   paddingVertical: ['paddingTop', 'paddingBottom'],
-  textDecorationLine: ['textDecoration'],
   writingDirection: ['direction']
 };
 
@@ -89,22 +78,26 @@ var defaultOffset = { height: 0, width: 0 };
  * Shadow
  */
 
-// TODO: add inset and spread support
 var resolveShadow = function resolveShadow(resolvedStyle, style) {
-  var _ref = style.shadowOffset || defaultOffset,
-      height = _ref.height,
-      width = _ref.width;
+  var boxShadow = style.boxShadow;
 
-  var offsetX = (0, _normalizeValue2.default)(null, width);
-  var offsetY = (0, _normalizeValue2.default)(null, height);
-  var blurRadius = (0, _normalizeValue2.default)(null, style.shadowRadius || 0);
-  var color = (0, _processColor2.default)(style.shadowColor, style.shadowOpacity);
+  var shadow = resolveShadowValue(style);
+  resolvedStyle.boxShadow = boxShadow ? boxShadow + ', ' + shadow : shadow;
+};
 
-  if (color) {
-    var boxShadow = offsetX + ' ' + offsetY + ' ' + blurRadius + ' ' + color;
-    resolvedStyle.boxShadow = style.boxShadow ? style.boxShadow + ', ' + boxShadow : boxShadow;
-  } else if (style.boxShadow) {
-    resolvedStyle.boxShadow = style.boxShadow;
+/**
+ * Text Decoration
+ */
+
+var resolveTextDecoration = function resolveTextDecoration(resolvedStyle, style) {
+  var textDecorationColor = style.textDecorationColor,
+      textDecorationLine = style.textDecorationLine,
+      textDecorationStyle = style.textDecorationStyle;
+
+  var color = normalizeColor(textDecorationColor) || '';
+  var lineStyle = textDecorationStyle || '';
+  if (textDecorationLine) {
+    resolvedStyle.textDecoration = (textDecorationLine + ' ' + lineStyle + ' ' + color).trim();
   }
 };
 
@@ -113,16 +106,20 @@ var resolveShadow = function resolveShadow(resolvedStyle, style) {
  */
 
 var resolveTextShadow = function resolveTextShadow(resolvedStyle, style) {
-  var _ref2 = style.textShadowOffset || defaultOffset,
-      height = _ref2.height,
-      width = _ref2.width;
+  var textShadowColor = style.textShadowColor,
+      textShadowOffset = style.textShadowOffset,
+      textShadowRadius = style.textShadowRadius;
 
-  var offsetX = (0, _normalizeValue2.default)(null, width);
-  var offsetY = (0, _normalizeValue2.default)(null, height);
-  var blurRadius = (0, _normalizeValue2.default)(null, style.textShadowRadius || 0);
-  var color = (0, _processColor2.default)(style.textShadowColor);
+  var _ref = textShadowOffset || defaultOffset,
+      height = _ref.height,
+      width = _ref.width;
 
-  if (color) {
+  var offsetX = normalizeValue(null, width);
+  var offsetY = normalizeValue(null, height);
+  var blurRadius = normalizeValue(null, textShadowRadius || 0);
+  var color = normalizeColor(textShadowColor);
+
+  if (color && (height !== 0 || width !== 0)) {
     resolvedStyle.textShadow = offsetX + ' ' + offsetY + ' ' + blurRadius + ' ' + color;
   }
 };
@@ -135,7 +132,7 @@ var resolveTextShadow = function resolveTextShadow(resolvedStyle, style) {
 // { translateX: 20 } => 'translateX(20px)'
 var mapTransform = function mapTransform(transform) {
   var type = Object.keys(transform)[0];
-  var value = (0, _normalizeValue2.default)(type, transform[type]);
+  var value = normalizeValue(type, transform[type]);
   return type + '(' + value + ')';
 };
 
@@ -161,20 +158,21 @@ var resolveTransform = function resolveTransform(resolvedStyle, style) {
 
 var createReducer = function createReducer(style, styleProps) {
   var hasResolvedShadow = false;
+  var hasResolvedTextDecoration = false;
   var hasResolvedTextShadow = false;
 
   return function (resolvedStyle, prop) {
-    var value = (0, _normalizeValue2.default)(prop, style[prop]);
+    var value = normalizeValue(prop, style[prop]);
 
     // Make sure the default border width is explicitly set to '0' to avoid
     // falling back to any unwanted user-agent styles.
     if (borderWidthProps[prop]) {
-      value = value == null ? (0, _normalizeValue2.default)(null, 0) : value;
+      value = value == null ? normalizeValue(null, 0) : value;
     }
 
     // Normalize color values
     if (colorProps[prop]) {
-      value = (0, _processColor2.default)(value);
+      value = normalizeColor(value);
     }
 
     // Ignore everything else with a null value
@@ -193,6 +191,17 @@ var createReducer = function createReducer(style, styleProps) {
           break;
         }
 
+      // TODO: remove once this issue is fixed
+      // https://github.com/rofrischmann/inline-style-prefixer/issues/159
+      case 'backgroundClip':
+        {
+          if (value === 'text') {
+            resolvedStyle.backgroundClip = value;
+            resolvedStyle.WebkitBackgroundClip = value;
+          }
+          break;
+        }
+
       case 'display':
         {
           resolvedStyle.display = value;
@@ -200,10 +209,10 @@ var createReducer = function createReducer(style, styleProps) {
           // set only if there is no otherwise supplied flex style.
           if (style.display === 'flex' && style.flex == null) {
             if (style.flexShrink == null) {
-              resolvedStyle.flexShrink = '0 !important';
+              resolvedStyle.flexShrink = 0;
             }
             if (style.flexBasis == null) {
-              resolvedStyle.flexBasis = 'auto !important';
+              resolvedStyle.flexBasis = 'auto';
             }
           }
           break;
@@ -211,43 +220,20 @@ var createReducer = function createReducer(style, styleProps) {
 
       // The 'flex' property value in React Native must be a positive integer,
       // 0, or -1.
-      //
-      // On the web, a positive integer value for 'flex' is complicated by
-      // browser differences. Although browsers render styles like 'flex:2'
-      // consistently, they don't all set the same value for the resulting
-      // 'flexBasis' (See #616). Expanding 'flex' in 'StyleSheet' would mean
-      // setting different values for different browsers.
-      //
-      // This fix instead relies on the browser expanding 'flex' itself. And
-      // because the 'flex' style is not being expanded the generated CSS is
-      // likely to contain source order "conflicts". To avoid the browser
-      // relying on source order to resolve the styles, all the longhand flex
-      // property values must use '!important'.
       case 'flex':
         {
           if (value > 0) {
-            resolvedStyle.flex = value;
-            resolvedStyle.flexGrow = value + ' !important';
-            resolvedStyle.flexShrink = '1 !important';
+            resolvedStyle.flexGrow = value;
+            resolvedStyle.flexShrink = 1;
+            resolvedStyle.flexBasis = '0%';
           } else if (value === 0) {
-            resolvedStyle.flexGrow = '0 !important';
-            resolvedStyle.flexShrink = '0 !important';
-            resolvedStyle.flexBasis = 'auto !important';
+            resolvedStyle.flexGrow = 0;
+            resolvedStyle.flexShrink = 0;
+            resolvedStyle.flexBasis = '0%';
           } else if (value === -1) {
-            resolvedStyle.flexGrow = '0 !important';
-            resolvedStyle.flexShrink = '1 !important';
-            resolvedStyle.flexBasis = 'auto !important';
-          }
-          break;
-        }
-
-      case 'flexGrow':
-      case 'flexShrink':
-      case 'flexBasis':
-        {
-          if (value != null) {
-            var hasImportant = ('' + value).indexOf('!important') > -1;
-            resolvedStyle[prop] = hasImportant ? value : value + ' !important';
+            resolvedStyle.flexGrow = 0;
+            resolvedStyle.flexShrink = 1;
+            resolvedStyle.flexBasis = 'auto';
           }
           break;
         }
@@ -289,6 +275,17 @@ var createReducer = function createReducer(style, styleProps) {
       case 'textAlignVertical':
         {
           resolvedStyle.verticalAlign = value === 'center' ? 'middle' : value;
+          break;
+        }
+
+      case 'textDecorationColor':
+      case 'textDecorationLine':
+      case 'textDecorationStyle':
+        {
+          if (!hasResolvedTextDecoration) {
+            resolveTextDecoration(resolvedStyle, style);
+          }
+          hasResolvedTextDecoration = true;
           break;
         }
 
@@ -342,4 +339,4 @@ var createReactDOMStyle = function createReactDOMStyle(style) {
   return resolvedStyle;
 };
 
-exports.default = createReactDOMStyle;
+export default createReactDOMStyle;

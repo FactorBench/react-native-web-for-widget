@@ -1,29 +1,22 @@
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.__esModule = true;
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-var _deepAssign = require('deep-assign');
-
-var _deepAssign2 = _interopRequireDefault(_deepAssign);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                                                                                           * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                           *
-                                                                                                                                                           * This source code is licensed under the MIT license found in the
-                                                                                                                                                           * LICENSE file in the root directory of this source tree.
-                                                                                                                                                           *
-                                                                                                                                                           * @providesModule AsyncStorage
-                                                                                                                                                           * 
-                                                                                                                                                           */
+import merge from 'deep-assign';
 
 var mergeLocalStorageItem = function mergeLocalStorageItem(key, value) {
   var oldValue = window.localStorage.getItem(key);
   var oldObject = JSON.parse(oldValue);
   var newObject = JSON.parse(value);
-  var nextValue = JSON.stringify((0, _deepAssign2.default)({}, oldObject, newObject));
+  var nextValue = JSON.stringify(merge({}, oldObject, newObject));
   window.localStorage.setItem(key, nextValue);
 };
 
@@ -200,4 +193,4 @@ var AsyncStorage = function () {
   return AsyncStorage;
 }();
 
-exports.default = AsyncStorage;
+export default AsyncStorage;

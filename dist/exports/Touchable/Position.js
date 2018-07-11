@@ -1,21 +1,15 @@
-'use strict';
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
+import PooledClass from '../../vendor/react-native/PooledClass';
 
-var _PooledClass = require('../../vendor/PooledClass');
-
-var _PooledClass2 = _interopRequireDefault(_PooledClass);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var twoArgumentPooler = _PooledClass2.default.twoArgumentPooler; /**
-                                                                  * Copyright (c) 2015-present, Facebook, Inc.
-                                                                  *
-                                                                  * This source code is licensed under the MIT license found in the
-                                                                  * LICENSE file in the root directory of this source tree.
-                                                                  *
-                                                                  * @noflow
-                                                                  */
+var twoArgumentPooler = PooledClass.twoArgumentPooler;
 
 function Position(left, top) {
   this.left = left;
@@ -27,6 +21,6 @@ Position.prototype.destructor = function () {
   this.top = null;
 };
 
-_PooledClass2.default.addPoolingTo(Position, twoArgumentPooler);
+PooledClass.addPoolingTo(Position, twoArgumentPooler);
 
-exports.default = Position;
+export default Position;

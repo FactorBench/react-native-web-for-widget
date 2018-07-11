@@ -1,20 +1,16 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule StyleSheetPropType
  * 
  */
 
-function StyleSheetPropType(shape) {
-  var createStrictShapeTypeChecker = require('../createStrictShapeTypeChecker').default;
-  var StyleSheet = require('../../exports/StyleSheet').default;
+import createStrictShapeTypeChecker from '../createStrictShapeTypeChecker';
+import StyleSheet from '../../exports/StyleSheet';
 
+function StyleSheetPropType(shape) {
   var shapePropType = createStrictShapeTypeChecker(shape);
   return function (props, propName, componentName, location) {
     var newProps = props;
@@ -40,4 +36,4 @@ function StyleSheetPropType(shape) {
   };
 }
 
-exports.default = StyleSheetPropType;
+export default StyleSheetPropType;

@@ -1,53 +1,14 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _crossFade = require('inline-style-prefixer/static/plugins/crossFade');
-
-var _crossFade2 = _interopRequireDefault(_crossFade);
-
-var _cursor = require('inline-style-prefixer/static/plugins/cursor');
-
-var _cursor2 = _interopRequireDefault(_cursor);
-
-var _filter = require('inline-style-prefixer/static/plugins/filter');
-
-var _filter2 = _interopRequireDefault(_filter);
-
-var _flex = require('inline-style-prefixer/static/plugins/flex');
-
-var _flex2 = _interopRequireDefault(_flex);
-
-var _flexboxIE = require('inline-style-prefixer/static/plugins/flexboxIE');
-
-var _flexboxIE2 = _interopRequireDefault(_flexboxIE);
-
-var _flexboxOld = require('inline-style-prefixer/static/plugins/flexboxOld');
-
-var _flexboxOld2 = _interopRequireDefault(_flexboxOld);
-
-var _gradient = require('inline-style-prefixer/static/plugins/gradient');
-
-var _gradient2 = _interopRequireDefault(_gradient);
-
-var _imageSet = require('inline-style-prefixer/static/plugins/imageSet');
-
-var _imageSet2 = _interopRequireDefault(_imageSet);
-
-var _position = require('inline-style-prefixer/static/plugins/position');
-
-var _position2 = _interopRequireDefault(_position);
-
-var _sizing = require('inline-style-prefixer/static/plugins/sizing');
-
-var _sizing2 = _interopRequireDefault(_sizing);
-
-var _transition = require('inline-style-prefixer/static/plugins/transition');
-
-var _transition2 = _interopRequireDefault(_transition);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+import crossFade from 'inline-style-prefixer/static/plugins/crossFade';
+import cursor from 'inline-style-prefixer/static/plugins/cursor';
+import filter from 'inline-style-prefixer/static/plugins/filter';
+import flex from 'inline-style-prefixer/static/plugins/flex';
+import flexboxIE from 'inline-style-prefixer/static/plugins/flexboxIE';
+import flexboxOld from 'inline-style-prefixer/static/plugins/flexboxOld';
+import gradient from 'inline-style-prefixer/static/plugins/gradient';
+import imageSet from 'inline-style-prefixer/static/plugins/imageSet';
+import position from 'inline-style-prefixer/static/plugins/position';
+import sizing from 'inline-style-prefixer/static/plugins/sizing';
+import transition from 'inline-style-prefixer/static/plugins/transition';
 var w = ['Webkit'];
 var m = ['Moz'];
 var ms = ['ms'];
@@ -55,8 +16,8 @@ var wm = ['Webkit', 'Moz'];
 var wms = ['Webkit', 'ms'];
 var wmms = ['Webkit', 'Moz', 'ms'];
 
-exports.default = {
-  plugins: [_crossFade2.default, _cursor2.default, _filter2.default, _flex2.default, _flexboxIE2.default, _flexboxOld2.default, _gradient2.default, _imageSet2.default, _position2.default, _sizing2.default, _transition2.default],
+export default {
+  plugins: [crossFade, cursor, filter, flex, flexboxIE, flexboxOld, gradient, imageSet, position, sizing, transition],
   prefixMap: {
     animation: w,
     animationDelay: w,

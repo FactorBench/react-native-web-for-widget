@@ -1,22 +1,15 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule ColorPropType
  * @noflow
  */
 
-var isWebColor = function isWebColor(color) {
-  return color === 'currentcolor' || color === 'inherit' || color.indexOf('var(') === 0;
-};
+import normalizeColor from '../../modules/normalizeColor';
 
 var colorPropType = function colorPropType(isRequired, props, propName, componentName, location, propFullName) {
-  var normalizeColor = require('normalize-css-color');
   var color = props[propName];
   if (color === undefined || color === null) {
     if (isRequired) {
@@ -29,11 +22,6 @@ var colorPropType = function colorPropType(isRequired, props, propName, componen
     // Developers should not use a number, but we are using the prop type
     // both for user provided colors and for transformed ones. This isn't ideal
     // and should be fixed but will do for now...
-    return;
-  }
-
-  if (typeof color === 'string' && isWebColor(color)) {
-    // Web supports additional color keywords and custom property values. Ignore them.
     return;
   }
 
@@ -51,4 +39,4 @@ if (process.env.NODE_ENV !== 'production') {
   ColorPropType = function ColorPropType() {};
 }
 
-exports.default = ColorPropType;
+export default ColorPropType;

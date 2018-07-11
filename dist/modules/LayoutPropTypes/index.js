@@ -1,25 +1,21 @@
-'use strict';
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
-
-var _propTypes = require('prop-types');
-
-var OverflowPropType = (0, _propTypes.oneOf)(['auto', 'hidden', 'scroll', 'visible']); /**
-                                                                                        * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                        *
-                                                                                        * This source code is licensed under the MIT license found in the
-                                                                                        * LICENSE file in the root directory of this source tree.
-                                                                                        *
-                                                                                        * 
-                                                                                        */
-
-var hiddenOrVisible = (0, _propTypes.oneOf)(['hidden', 'visible']);
-var numberOrString = (0, _propTypes.oneOfType)([_propTypes.number, _propTypes.string]);
+import { number, oneOf, oneOfType, string } from 'prop-types';
+var OverflowPropType = oneOf(['auto', 'hidden', 'scroll', 'visible']);
+var hiddenOrVisible = oneOf(['hidden', 'visible']);
+var numberOrString = oneOfType([number, string]);
 
 var LayoutPropTypes = {
-  alignContent: (0, _propTypes.oneOf)(['center', 'flex-end', 'flex-start', 'space-around', 'space-between', 'stretch']),
-  alignItems: (0, _propTypes.oneOf)(['baseline', 'center', 'flex-end', 'flex-start', 'stretch']),
-  alignSelf: (0, _propTypes.oneOf)(['auto', 'baseline', 'center', 'flex-end', 'flex-start', 'stretch']),
+  alignContent: oneOf(['center', 'flex-end', 'flex-start', 'space-around', 'space-between', 'stretch']),
+  alignItems: oneOf(['baseline', 'center', 'flex-end', 'flex-start', 'stretch']),
+  alignSelf: oneOf(['auto', 'baseline', 'center', 'flex-end', 'flex-start', 'stretch']),
   backfaceVisibility: hiddenOrVisible,
   borderWidth: numberOrString,
   borderBottomWidth: numberOrString,
@@ -29,18 +25,18 @@ var LayoutPropTypes = {
   borderStartWidth: numberOrString,
   borderTopWidth: numberOrString,
   bottom: numberOrString,
-  boxSizing: _propTypes.string,
-  direction: (0, _propTypes.oneOf)(['inherit', 'ltr', 'rtl']),
-  display: _propTypes.string,
+  boxSizing: string,
+  direction: oneOf(['inherit', 'ltr', 'rtl']),
+  display: string,
   end: numberOrString,
-  flex: _propTypes.number,
+  flex: number,
   flexBasis: numberOrString,
-  flexDirection: (0, _propTypes.oneOf)(['column', 'column-reverse', 'row', 'row-reverse']),
-  flexGrow: _propTypes.number,
-  flexShrink: _propTypes.number,
-  flexWrap: (0, _propTypes.oneOf)(['nowrap', 'wrap', 'wrap-reverse']),
+  flexDirection: oneOf(['column', 'column-reverse', 'row', 'row-reverse']),
+  flexGrow: number,
+  flexShrink: number,
+  flexWrap: oneOf(['nowrap', 'wrap', 'wrap-reverse']),
   height: numberOrString,
-  justifyContent: (0, _propTypes.oneOf)(['center', 'flex-end', 'flex-start', 'space-around', 'space-between', 'space-evenly']),
+  justifyContent: oneOf(['center', 'flex-end', 'flex-start', 'space-around', 'space-between', 'space-evenly']),
   left: numberOrString,
   margin: numberOrString,
   marginBottom: numberOrString,
@@ -55,7 +51,7 @@ var LayoutPropTypes = {
   maxWidth: numberOrString,
   minHeight: numberOrString,
   minWidth: numberOrString,
-  order: _propTypes.number,
+  order: number,
   overflow: OverflowPropType,
   overflowX: OverflowPropType,
   overflowY: OverflowPropType,
@@ -68,32 +64,32 @@ var LayoutPropTypes = {
   paddingStart: numberOrString,
   paddingTop: numberOrString,
   paddingVertical: numberOrString,
-  position: (0, _propTypes.oneOf)(['absolute', 'fixed', 'relative', 'static', 'sticky']),
+  position: oneOf(['absolute', 'fixed', 'relative', 'static', 'sticky']),
   right: numberOrString,
   start: numberOrString,
   top: numberOrString,
   visibility: hiddenOrVisible,
   width: numberOrString,
-  zIndex: _propTypes.number,
+  zIndex: number,
   /**
    * @platform unsupported
    */
-  aspectRatio: _propTypes.number,
+  aspectRatio: number,
   /**
    * @platform web
    */
-  gridAutoColumns: _propTypes.string,
-  gridAutoFlow: _propTypes.string,
-  gridAutoRows: _propTypes.string,
-  gridColumnEnd: _propTypes.string,
-  gridColumnGap: _propTypes.string,
-  gridColumnStart: _propTypes.string,
-  gridRowEnd: _propTypes.string,
-  gridRowGap: _propTypes.string,
-  gridRowStart: _propTypes.string,
-  gridTemplateColumns: _propTypes.string,
-  gridTemplateRows: _propTypes.string,
-  gridTemplateAreas: _propTypes.string
+  gridAutoColumns: string,
+  gridAutoFlow: string,
+  gridAutoRows: string,
+  gridColumnEnd: string,
+  gridColumnGap: string,
+  gridColumnStart: string,
+  gridRowEnd: string,
+  gridRowGap: string,
+  gridRowStart: string,
+  gridTemplateColumns: string,
+  gridTemplateRows: string,
+  gridTemplateAreas: string
 };
 
-exports.default = LayoutPropTypes;
+export default LayoutPropTypes;

@@ -1,41 +1,21 @@
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.__esModule = true;
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-var _ImageStylePropTypes = require('../Image/ImageStylePropTypes');
-
-var _ImageStylePropTypes2 = _interopRequireDefault(_ImageStylePropTypes);
-
-var _TextInputStylePropTypes = require('../TextInput/TextInputStylePropTypes');
-
-var _TextInputStylePropTypes2 = _interopRequireDefault(_TextInputStylePropTypes);
-
-var _TextStylePropTypes = require('../Text/TextStylePropTypes');
-
-var _TextStylePropTypes2 = _interopRequireDefault(_TextStylePropTypes);
-
-var _ViewStylePropTypes = require('../View/ViewStylePropTypes');
-
-var _ViewStylePropTypes2 = _interopRequireDefault(_ViewStylePropTypes);
-
-var _warning = require('fbjs/lib/warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                           * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                           *
-                                                                                                                                                           * This source code is licensed under the MIT license found in the
-                                                                                                                                                           * LICENSE file in the root directory of this source tree.
-                                                                                                                                                           *
-                                                                                                                                                           * @providesModule StyleSheetValidation
-                                                                                                                                                           * 
-                                                                                                                                                           */
+import ImageStylePropTypes from '../Image/ImageStylePropTypes';
+import TextInputStylePropTypes from '../TextInput/TextInputStylePropTypes';
+import TextStylePropTypes from '../Text/TextStylePropTypes';
+import ViewStylePropTypes from '../View/ViewStylePropTypes';
+import warning from 'fbjs/lib/warning';
+import { number, oneOf, string } from 'prop-types';
 
 // Hardcoded because this is a legit case but we don't want to load it from
 // a private API. We might likely want to unify style sheet creation with how it
@@ -87,31 +67,31 @@ var StyleSheetValidation = function () {
   return StyleSheetValidation;
 }();
 
-exports.default = StyleSheetValidation;
-
-
 var styleError = function styleError(message1, style, caller, message2) {
-  (0, _warning2.default)(false, message1 + '\n' + (caller || '<<unknown>>') + ': ' + JSON.stringify(style, null, '  ') + (message2 || ''));
+  warning(false, message1 + '\n' + (caller || '<<unknown>>') + ': ' + JSON.stringify(style, null, '  ') + (message2 || ''));
 };
 
 var allStylePropTypes = {};
 
-StyleSheetValidation.addValidStylePropTypes(_ImageStylePropTypes2.default);
-StyleSheetValidation.addValidStylePropTypes(_TextStylePropTypes2.default);
-StyleSheetValidation.addValidStylePropTypes(_TextInputStylePropTypes2.default);
-StyleSheetValidation.addValidStylePropTypes(_ViewStylePropTypes2.default);
+StyleSheetValidation.addValidStylePropTypes(ImageStylePropTypes);
+StyleSheetValidation.addValidStylePropTypes(TextStylePropTypes);
+StyleSheetValidation.addValidStylePropTypes(TextInputStylePropTypes);
+StyleSheetValidation.addValidStylePropTypes(ViewStylePropTypes);
 
 StyleSheetValidation.addValidStylePropTypes({
-  appearance: _propTypes.string,
-  borderCollapse: _propTypes.string,
-  borderSpacing: (0, _propTypes.oneOf)([_propTypes.number, _propTypes.string]),
-  clear: _propTypes.string,
-  cursor: _propTypes.string,
-  fill: _propTypes.string,
-  float: (0, _propTypes.oneOf)(['end', 'left', 'none', 'right', 'start']),
-  listStyle: _propTypes.string,
-  pointerEvents: _propTypes.string,
-  tableLayout: _propTypes.string,
+  appearance: string,
+  borderCollapse: string,
+  borderSpacing: oneOf([number, string]),
+  clear: string,
+  cursor: string,
+  fill: string,
+  float: oneOf(['end', 'left', 'none', 'right', 'start']),
+  listStyle: string,
+  pointerEvents: string,
+  tableLayout: string,
   /* @private */
-  MozAppearance: _propTypes.string
+  MozAppearance: string,
+  WebkitAppearance: string
 });
+
+export default StyleSheetValidation;

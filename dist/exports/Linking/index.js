@@ -1,19 +1,17 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import invariant from 'fbjs/lib/invariant';
 
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-var initialURL = _ExecutionEnvironment.canUseDOM ? window.location.href : ''; /**
-                                                                               * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                               * Copyright (c) 2015-present, Facebook, Inc.
-                                                                               *
-                                                                               * This source code is licensed under the MIT license found in the
-                                                                               * LICENSE file in the root directory of this source tree.
-                                                                               *
-                                                                               * @providesModule Linking
-                                                                               * 
-                                                                               */
+var initialURL = canUseDOM ? window.location.href : '';
 
 var Linking = {
   addEventListener: function addEventListener() {},
@@ -31,20 +29,17 @@ var Linking = {
     } catch (e) {
       return Promise.reject(e);
     }
+  },
+  _validateURL: function _validateURL(url) {
+    invariant(typeof url === 'string', 'Invalid URL: should be a string. Was: ' + url);
+    invariant(url, 'Invalid URL: cannot be empty');
   }
 };
 
 var open = function open(url) {
-  var anchor = document.createElement('a');
-  anchor.target = '_blank'; // :(
-  anchor.rel = 'noopener';
-  anchor.href = url;
-  var body = document.body;
-  if (body) {
-    body.appendChild(anchor);
-    anchor.click();
-    body.removeChild(anchor);
+  if (canUseDOM) {
+    window.location = new URL(url, window.location).toString();
   }
 };
 
-exports.default = Linking;
+export default Linking;

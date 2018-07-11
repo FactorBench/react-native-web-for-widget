@@ -1,17 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ReactNativePropRegistry = require('../../modules/ReactNativePropRegistry');
-
-var _ReactNativePropRegistry2 = _interopRequireDefault(_ReactNativePropRegistry);
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -19,13 +5,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule flattenStyle
  * 
  */
 
+import ReactNativePropRegistry from '../../modules/ReactNativePropRegistry';
+import invariant from 'fbjs/lib/invariant';
+
 function getStyle(style) {
   if (typeof style === 'number') {
-    return _ReactNativePropRegistry2.default.getByID(style);
+    return ReactNativePropRegistry.getByID(style);
   }
   return style;
 }
@@ -36,7 +24,7 @@ function flattenStyle(style) {
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    (0, _invariant2.default)(style !== true, 'style may be false but not true');
+    invariant(style !== true, 'style may be false but not true');
   }
 
   if (!Array.isArray(style)) {
@@ -57,4 +45,4 @@ function flattenStyle(style) {
   return result;
 }
 
-exports.default = flattenStyle;
+export default flattenStyle;

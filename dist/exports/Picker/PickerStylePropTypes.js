@@ -1,17 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ColorPropType = require('../ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _ViewStylePropTypes = require('../View/ViewStylePropTypes');
-
-var _ViewStylePropTypes2 = _interopRequireDefault(_ViewStylePropTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2017-present, Nicolas Gallagher.
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -22,8 +8,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-var PickerStylePropTypes = Object.assign({}, _ViewStylePropTypes2.default, {
-  color: _ColorPropType2.default
+import ColorPropType from '../ColorPropType';
+import ViewStylePropTypes from '../View/ViewStylePropTypes';
+
+var PickerStylePropTypes = Object.assign({}, ViewStylePropTypes, {
+  color: ColorPropType
 });
 
-exports.default = PickerStylePropTypes;
+export default PickerStylePropTypes;

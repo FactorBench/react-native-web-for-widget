@@ -5,7 +5,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule TextInput
  * @flow
  */
 
@@ -86,6 +85,7 @@ class TextInput extends Component<*> {
       'default',
       'email-address',
       'number-pad',
+      'numbers-and-punctuation',
       'numeric',
       'phone-pad',
       'search',
@@ -183,6 +183,7 @@ class TextInput extends Component<*> {
       blurOnSubmit,
       clearTextOnFocus,
       onChangeText,
+      onLayout,
       onSelectionChange,
       onSubmitEditing,
       selection,
@@ -281,6 +282,7 @@ class TextInput extends Component<*> {
     if (onChangeText) {
       onChangeText(text);
     }
+    this._handleSelectionChange(e);
   };
 
   _handleFocus = e => {
@@ -375,6 +377,8 @@ class TextInput extends Component<*> {
 
     if (!e.isDefaultPrevented() && e.which === 13 && !e.shiftKey) {
       if ((blurOnSubmit || !multiline) && onSubmitEditing) {
+        // prevent "Enter" from inserting a newline
+        e.preventDefault();
         e.nativeEvent = { target: e.target, text: e.target.value };
         onSubmitEditing(e);
       }
@@ -409,7 +413,7 @@ class TextInput extends Component<*> {
 const styles = StyleSheet.create({
   initial: {
     MozAppearance: 'textfield',
-    appearance: 'none',
+    WebkitAppearance: 'none',
     backgroundColor: 'transparent',
     borderColor: 'black',
     borderRadius: 0,

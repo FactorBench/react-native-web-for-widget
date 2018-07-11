@@ -1,15 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ColorPropType = require('../../exports/ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  *
@@ -19,17 +7,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-var numberOrString = (0, _propTypes.oneOfType)([_propTypes.number, _propTypes.string]);
-var BorderStylePropType = (0, _propTypes.oneOf)(['solid', 'dotted', 'dashed']);
+import ColorPropType from '../../exports/ColorPropType';
+import { number, oneOf, oneOfType, string } from 'prop-types';
+
+var numberOrString = oneOfType([number, string]);
+var BorderStylePropType = oneOf(['solid', 'dotted', 'dashed']);
 
 var BorderPropTypes = {
-  borderColor: _ColorPropType2.default,
-  borderBottomColor: _ColorPropType2.default,
-  borderEndColor: _ColorPropType2.default,
-  borderLeftColor: _ColorPropType2.default,
-  borderRightColor: _ColorPropType2.default,
-  borderStartColor: _ColorPropType2.default,
-  borderTopColor: _ColorPropType2.default,
+  borderColor: ColorPropType,
+  borderBottomColor: ColorPropType,
+  borderEndColor: ColorPropType,
+  borderLeftColor: ColorPropType,
+  borderRightColor: ColorPropType,
+  borderStartColor: ColorPropType,
+  borderTopColor: ColorPropType,
   borderRadius: numberOrString,
   borderBottomEndRadius: numberOrString,
   borderBottomLeftRadius: numberOrString,
@@ -48,4 +39,4 @@ var BorderPropTypes = {
   borderTopStyle: BorderStylePropType
 };
 
-exports.default = BorderPropTypes;
+export default BorderPropTypes;

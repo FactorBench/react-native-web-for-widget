@@ -1,57 +1,28 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-var _createReactClass = require('create-react-class');
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import createReactClass from 'create-react-class';
+import ensurePositiveDelayProps from '../Touchable/ensurePositiveDelayProps';
+import { number } from 'prop-types';
+import React from 'react';
+import StyleSheet from '../StyleSheet';
+import Touchable from '../Touchable';
+import TouchableWithoutFeedback from '../TouchableWithoutFeedback';
+import View from '../View';
 
-var _createReactClass2 = _interopRequireDefault(_createReactClass);
-
-var _ensurePositiveDelayProps = require('../Touchable/ensurePositiveDelayProps');
-
-var _ensurePositiveDelayProps2 = _interopRequireDefault(_ensurePositiveDelayProps);
-
-var _propTypes = require('prop-types');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _Touchable = require('../Touchable');
-
-var _Touchable2 = _interopRequireDefault(_Touchable);
-
-var _TouchableWithoutFeedback = require('../TouchableWithoutFeedback');
-
-var _TouchableWithoutFeedback2 = _interopRequireDefault(_TouchableWithoutFeedback);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; } /**
-                                                                                                                                                                                                                              * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                              * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                              *
-                                                                                                                                                                                                                              * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                              * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                              *
-                                                                                                                                                                                                                              * @providesModule TouchableOpacity
-                                                                                                                                                                                                                              * @noflow
-                                                                                                                                                                                                                              */
-
-var flattenStyle = _StyleSheet2.default.flatten;
+var flattenStyle = StyleSheet.flatten;
 
 var PRESS_RETENTION_OFFSET = { top: 20, left: 20, right: 20, bottom: 30 };
 
@@ -79,17 +50,17 @@ var PRESS_RETENTION_OFFSET = { top: 20, left: 20, right: 20, bottom: 30 };
  */
 
 /* eslint-disable react/prefer-es6-class */
-var TouchableOpacity = (0, _createReactClass2.default)({
+var TouchableOpacity = createReactClass({
   displayName: 'TouchableOpacity',
-  mixins: [_Touchable2.default.Mixin],
+  mixins: [Touchable.Mixin],
 
-  propTypes: Object.assign({}, _TouchableWithoutFeedback2.default.propTypes, {
+  propTypes: Object.assign({}, TouchableWithoutFeedback.propTypes, {
     /**
      * Determines what the opacity of the wrapped view should be when touch is
      * active.
      */
-    activeOpacity: _propTypes.number,
-    focusedOpacity: _propTypes.number
+    activeOpacity: number,
+    focusedOpacity: number
   }),
 
   getDefaultProps: function getDefaultProps() {
@@ -104,11 +75,11 @@ var TouchableOpacity = (0, _createReactClass2.default)({
   },
 
   componentDidMount: function componentDidMount() {
-    (0, _ensurePositiveDelayProps2.default)(this.props);
+    ensurePositiveDelayProps(this.props);
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    (0, _ensurePositiveDelayProps2.default)(nextProps);
+    ensurePositiveDelayProps(nextProps);
   },
 
   /**
@@ -200,8 +171,8 @@ var TouchableOpacity = (0, _createReactClass2.default)({
         pressRetentionOffset = _props.pressRetentionOffset,
         other = _objectWithoutProperties(_props, ['activeOpacity', 'focusedOpacity', 'delayLongPress', 'delayPressIn', 'delayPressOut', 'onLongPress', 'onPress', 'onPressIn', 'onPressOut', 'pressRetentionOffset']);
 
-    return _react2.default.createElement(
-      _View2.default,
+    return React.createElement(
+      View,
       _extends({}, other, {
         accessible: this.props.accessible !== false,
         onKeyDown: this.touchableHandleKeyEvent,
@@ -215,12 +186,12 @@ var TouchableOpacity = (0, _createReactClass2.default)({
         style: [styles.root, !this.props.disabled && styles.actionable, this.props.style]
       }),
       this.props.children,
-      _Touchable2.default.renderDebugView({ color: 'blue', hitSlop: this.props.hitSlop })
+      Touchable.renderDebugView({ color: 'blue', hitSlop: this.props.hitSlop })
     );
   }
 });
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   root: {
     transitionProperty: 'opacity',
     transitionDuration: '0.15s',
@@ -232,4 +203,4 @@ var styles = _StyleSheet2.default.create({
   }
 });
 
-exports.default = (0, _applyNativeMethods2.default)(TouchableOpacity);
+export default applyNativeMethods(TouchableOpacity);

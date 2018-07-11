@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2017-present, Nicolas Gallagher.
  *
@@ -48,4 +45,4 @@ var propsToAriaRole = function propsToAriaRole(_ref) {
   }
 };
 
-exports.default = propsToAriaRole;
+export default propsToAriaRole;

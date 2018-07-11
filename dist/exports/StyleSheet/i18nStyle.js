@@ -1,17 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _I18nManager = require('../I18nManager');
-
-var _I18nManager2 = _interopRequireDefault(_I18nManager);
-
-var _multiplyStyleLengthValue = require('../../modules/multiplyStyleLengthValue');
-
-var _multiplyStyleLengthValue2 = _interopRequireDefault(_multiplyStyleLengthValue);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2016-present, Nicolas Gallagher.
  *
@@ -20,6 +6,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @noflow
  */
+
+import I18nManager from '../I18nManager';
+import multiplyStyleLengthValue from '../../modules/multiplyStyleLengthValue';
 
 var emptyObject = {};
 
@@ -88,12 +77,12 @@ var PROPERTIES_VALUE = {
 
 // Invert the sign of a numeric-like value
 var additiveInverse = function additiveInverse(value) {
-  return (0, _multiplyStyleLengthValue2.default)(value, -1);
+  return multiplyStyleLengthValue(value, -1);
 };
 
 var i18nStyle = function i18nStyle(originalStyle) {
-  var doLeftAndRightSwapInRTL = _I18nManager2.default.doLeftAndRightSwapInRTL,
-      isRTL = _I18nManager2.default.isRTL;
+  var doLeftAndRightSwapInRTL = I18nManager.doLeftAndRightSwapInRTL,
+      isRTL = I18nManager.isRTL;
 
   var style = originalStyle || emptyObject;
   var frozenProps = {};
@@ -146,4 +135,4 @@ var i18nStyle = function i18nStyle(originalStyle) {
   return nextStyle;
 };
 
-exports.default = i18nStyle;
+export default i18nStyle;

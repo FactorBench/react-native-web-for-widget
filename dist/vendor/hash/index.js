@@ -1,6 +1,3 @@
-"use strict";
-
-exports.__esModule = true;
 /* eslint-disable */
 
 /**
@@ -56,4 +53,4 @@ var hash = function hash(str) {
   return murmurhash2_32_gc(str, 1).toString(36);
 };
 
-exports.default = hash;
+export default hash;

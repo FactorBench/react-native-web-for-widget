@@ -1,31 +1,20 @@
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.__esModule = true;
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import debounce from 'debounce';
+import invariant from 'fbjs/lib/invariant';
 
-var _debounce = require('debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                                                                                           * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                           *
-                                                                                                                                                           * This source code is licensed under the MIT license found in the
-                                                                                                                                                           * LICENSE file in the root directory of this source tree.
-                                                                                                                                                           *
-                                                                                                                                                           * @providesModule Dimensions
-                                                                                                                                                           * 
-                                                                                                                                                           */
-
-var win = _ExecutionEnvironment.canUseDOM ? window : {
+var win = canUseDOM ? window : {
   devicePixelRatio: undefined,
   innerHeight: undefined,
   innerWidth: undefined,
@@ -44,14 +33,14 @@ var Dimensions = function () {
   }
 
   Dimensions.get = function get(dimension) {
-    (0, _invariant2.default)(dimensions[dimension], 'No dimension set for key ' + dimension);
+    invariant(dimensions[dimension], 'No dimension set for key ' + dimension);
     return dimensions[dimension];
   };
 
   Dimensions.set = function set(initialDimensions) {
     if (initialDimensions) {
-      if (_ExecutionEnvironment.canUseDOM) {
-        (0, _invariant2.default)(false, 'Dimensions cannot be set in the browser');
+      if (canUseDOM) {
+        invariant(false, 'Dimensions cannot be set in the browser');
       } else {
         dimensions.screen = initialDimensions.screen;
         dimensions.window = initialDimensions.window;
@@ -97,11 +86,11 @@ var Dimensions = function () {
   return Dimensions;
 }();
 
-exports.default = Dimensions;
+export default Dimensions;
 
 
 Dimensions._update();
 
-if (_ExecutionEnvironment.canUseDOM) {
-  window.addEventListener('resize', (0, _debounce2.default)(Dimensions._update, 16), false);
+if (canUseDOM) {
+  window.addEventListener('resize', debounce(Dimensions._update, 16), false);
 }

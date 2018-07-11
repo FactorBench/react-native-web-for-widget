@@ -1,25 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _createDOMProps = require('../createDOMProps');
-
-var _createDOMProps2 = _interopRequireDefault(_createDOMProps);
-
-var _findNodeHandle = require('../../exports/findNodeHandle');
-
-var _findNodeHandle2 = _interopRequireDefault(_findNodeHandle);
-
-var _styleResolver = require('../../exports/StyleSheet/styleResolver');
-
-var _styleResolver2 = _interopRequireDefault(_styleResolver);
-
-var _UIManager = require('../../exports/UIManager');
-
-var _UIManager2 = _interopRequireDefault(_UIManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2016-present, Nicolas Gallagher.
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -27,16 +5,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule NativeMethodsMixin
  * 
  */
+
+import createDOMProps from '../createDOMProps';
+import findNodeHandle from '../../exports/findNodeHandle';
+import styleResolver from '../../exports/StyleSheet/styleResolver';
+import UIManager from '../../exports/UIManager';
 
 var NativeMethodsMixin = {
   /**
    * Removes focus from an input or view. This is the opposite of `focus()`.
    */
   blur: function blur() {
-    _UIManager2.default.blur((0, _findNodeHandle2.default)(this));
+    UIManager.blur(findNodeHandle(this));
   },
 
 
@@ -45,7 +27,7 @@ var NativeMethodsMixin = {
    * The exact behavior triggered will depend the type of view.
    */
   focus: function focus() {
-    _UIManager2.default.focus((0, _findNodeHandle2.default)(this));
+    UIManager.focus(findNodeHandle(this));
   },
 
 
@@ -53,7 +35,7 @@ var NativeMethodsMixin = {
    * Determines the position and dimensions of the view
    */
   measure: function measure(callback) {
-    _UIManager2.default.measure((0, _findNodeHandle2.default)(this), callback);
+    UIManager.measure(findNodeHandle(this), callback);
   },
 
 
@@ -73,7 +55,7 @@ var NativeMethodsMixin = {
    * has been completed.
    */
   measureInWindow: function measureInWindow(callback) {
-    _UIManager2.default.measureInWindow((0, _findNodeHandle2.default)(this), callback);
+    UIManager.measureInWindow(findNodeHandle(this), callback);
   },
 
 
@@ -81,7 +63,7 @@ var NativeMethodsMixin = {
    * Measures the view relative to another view (usually an ancestor)
    */
   measureLayout: function measureLayout(relativeToNativeNode, onSuccess, onFail) {
-    _UIManager2.default.measureLayout((0, _findNodeHandle2.default)(this), relativeToNativeNode, onFail, onSuccess);
+    UIManager.measureLayout(findNodeHandle(this), relativeToNativeNode, onFail, onSuccess);
   },
 
 
@@ -95,14 +77,14 @@ var NativeMethodsMixin = {
     if (!nativeProps) {
       return;
     }
-    var node = (0, _findNodeHandle2.default)(this);
+    var node = findNodeHandle(this);
     // Next state is determined by comparison to existing state (in the DOM).
     // Existing state has already gone through i18n transform
-    var domProps = (0, _createDOMProps2.default)(null, nativeProps, function (style) {
-      return _styleResolver2.default.resolveWithNode(style, node);
+    var domProps = createDOMProps(null, nativeProps, function (style) {
+      return styleResolver.resolveWithNode(style, node);
     });
-    _UIManager2.default.updateView(node, domProps, this);
+    UIManager.updateView(node, domProps, this);
   }
 };
 
-exports.default = NativeMethodsMixin;
+export default NativeMethodsMixin;

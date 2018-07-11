@@ -1,15 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _TextStylePropTypes = require('../Text/TextStylePropTypes');
-
-var _TextStylePropTypes2 = _interopRequireDefault(_TextStylePropTypes);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  *
@@ -19,9 +7,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-var TextInputStylePropTypes = Object.assign({}, _TextStylePropTypes2.default, {
+import TextStylePropTypes from '../Text/TextStylePropTypes';
+import { oneOf } from 'prop-types';
+
+var TextInputStylePropTypes = Object.assign({}, TextStylePropTypes, {
   /* @platform web */
-  resize: (0, _propTypes.oneOf)(['none', 'vertical', 'horizontal', 'both'])
+  resize: oneOf(['none', 'vertical', 'horizontal', 'both'])
 });
 
-exports.default = TextInputStylePropTypes;
+export default TextInputStylePropTypes;

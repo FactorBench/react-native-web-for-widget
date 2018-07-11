@@ -1,62 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
-
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
-
-var _createElement = require('../createElement');
-
-var _createElement2 = _interopRequireDefault(_createElement);
-
-var _AssetRegistry = require('../../modules/AssetRegistry');
-
-var _ImageLoader = require('../../modules/ImageLoader');
-
-var _ImageLoader2 = _interopRequireDefault(_ImageLoader);
-
-var _ImageResizeMode = require('./ImageResizeMode');
-
-var _ImageResizeMode2 = _interopRequireDefault(_ImageResizeMode);
-
-var _ImageStylePropTypes = require('./ImageStylePropTypes');
-
-var _ImageStylePropTypes2 = _interopRequireDefault(_ImageStylePropTypes);
-
-var _ImageUriCache = require('./ImageUriCache');
-
-var _ImageUriCache2 = _interopRequireDefault(_ImageUriCache);
-
-var _requestIdleCallback = require('../../modules/requestIdleCallback');
-
-var _requestIdleCallback2 = _interopRequireDefault(_requestIdleCallback);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _StyleSheetPropType = require('../../modules/StyleSheetPropType');
-
-var _StyleSheetPropType2 = _interopRequireDefault(_StyleSheetPropType);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _propTypes = require('prop-types');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -64,16 +6,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @providesModule Image
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import createElement from '../createElement';
+import { getAssetByID } from '../../modules/AssetRegistry';
+import resolveShadowValue from '../StyleSheet/resolveShadowValue';
+import ImageLoader from '../../modules/ImageLoader';
+import ImageResizeMode from './ImageResizeMode';
+import ImageSourcePropType from './ImageSourcePropType';
+import ImageStylePropTypes from './ImageStylePropTypes';
+import ImageUriCache from './ImageUriCache';
+import StyleSheet from '../StyleSheet';
+import StyleSheetPropType from '../../modules/StyleSheetPropType';
+import View from '../View';
+import ViewPropTypes from '../ViewPropTypes';
+import { bool, func, number, oneOf, shape } from 'prop-types';
+import React, { Component } from 'react';
 
 var emptyObject = {};
 
@@ -83,19 +42,13 @@ var STATUS_LOADING = 'LOADING';
 var STATUS_PENDING = 'PENDING';
 var STATUS_IDLE = 'IDLE';
 
-var ImageSourcePropType = (0, _propTypes.oneOfType)([_propTypes.number, (0, _propTypes.shape)({
-  height: _propTypes.number,
-  uri: _propTypes.string.isRequired,
-  width: _propTypes.number
-}), _propTypes.string]);
-
 var getImageState = function getImageState(uri, shouldDisplaySource) {
   return shouldDisplaySource ? STATUS_LOADED : uri ? STATUS_PENDING : STATUS_IDLE;
 };
 
 var resolveAssetDimensions = function resolveAssetDimensions(source) {
   if (typeof source === 'number') {
-    var _getAssetByID = (0, _AssetRegistry.getAssetByID)(source),
+    var _getAssetByID = getAssetByID(source),
         height = _getAssetByID.height,
         width = _getAssetByID.width;
 
@@ -109,46 +62,63 @@ var resolveAssetDimensions = function resolveAssetDimensions(source) {
 };
 
 var svgDataUriPattern = /^(data:image\/svg\+xml;utf8,)(.*)/;
-var resolveAssetSource = function resolveAssetSource(source) {
-  var uri = void 0;
+var resolveAssetUri = function resolveAssetUri(source) {
+  var uri = '';
   if (typeof source === 'number') {
     // get the URI from the packager
-    var asset = (0, _AssetRegistry.getAssetByID)(source);
+    var asset = getAssetByID(source);
     var scale = asset.scales[0];
     var scaleSuffix = scale !== 1 ? '@' + scale + 'x' : '';
     uri = asset ? asset.httpServerLocation + '/' + asset.name + scaleSuffix + '.' + asset.type : '';
-  } else if (source && source.uri) {
+  } else if (typeof source === 'string') {
+    uri = source;
+  } else if (source && typeof source.uri === 'string') {
     uri = source.uri;
-  } else {
-    uri = source || '';
   }
 
-  var match = uri.match(svgDataUriPattern);
-  // inline SVG markup may contain characters (e.g., #, ") that need to be escaped
-  if (match) {
-    var prefix = match[1],
-        svg = match[2];
+  if (uri) {
+    var match = uri.match(svgDataUriPattern);
+    // inline SVG markup may contain characters (e.g., #, ") that need to be escaped
+    if (match) {
+      var prefix = match[1],
+          svg = match[2];
 
-    var encodedSvg = encodeURIComponent(svg);
-    return '' + prefix + encodedSvg;
+      var encodedSvg = encodeURIComponent(svg);
+      return '' + prefix + encodedSvg;
+    }
   }
 
   return uri;
 };
 
-var getAssetTimeout = function getAssetTimeout(source) {
-  return typeof source === 'object' && source.timeout ? source.timeout : 1000;
+var filterId = 0;
+
+var createTintColorSVG = function createTintColorSVG(tintColor, id) {
+  return tintColor && id != null ? React.createElement(
+    'svg',
+    { style: { position: 'absolute', height: 0, visibility: 'hidden', width: 0 } },
+    React.createElement(
+      'defs',
+      null,
+      React.createElement(
+        'filter',
+        { id: 'tint-' + id },
+        React.createElement('feFlood', { floodColor: '' + tintColor }),
+        React.createElement('feComposite', { in2: 'SourceAlpha', operator: 'atop' })
+      )
+    )
+  ) : null;
 };
 
 var Image = function (_Component) {
   _inherits(Image, _Component);
 
   Image.getSize = function getSize(uri, success, failure) {
-    _ImageLoader2.default.getSize(uri, success, failure);
+    ImageLoader.getSize(uri, success, failure);
   };
 
   Image.prefetch = function prefetch(uri) {
-    return _ImageLoader2.default.prefetch(uri);
+    return ImageLoader.prefetch(uri);
   };
 
   function Image(props, context) {
@@ -157,10 +127,46 @@ var Image = function (_Component) {
     // If an image has been loaded before, render it immediately
     var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
+    _this._filterId = 0;
+    _this._imageRef = null;
     _this._imageRequestId = null;
     _this._imageState = null;
     _this._isMounted = false;
-    _this._loadRequest = null;
+
+    _this._createLayoutHandler = function (resizeMode) {
+      var onLayout = _this.props.onLayout;
+
+      if (resizeMode === 'center' || resizeMode === 'repeat' || onLayout) {
+        return function (e) {
+          var layout = e.nativeEvent.layout;
+
+          onLayout && onLayout(e);
+          _this.setState(function () {
+            return { layout: layout };
+          });
+        };
+      }
+    };
+
+    _this._getBackgroundSize = function (resizeMode) {
+      if (_this._imageRef && (resizeMode === 'center' || resizeMode === 'repeat')) {
+        var _this$_imageRef = _this._imageRef,
+            naturalHeight = _this$_imageRef.naturalHeight,
+            naturalWidth = _this$_imageRef.naturalWidth;
+        var _this$state$layout = _this.state.layout,
+            height = _this$state$layout.height,
+            width = _this$state$layout.width;
+
+        if (naturalHeight && naturalWidth && height && width) {
+          var scaleFactor = Math.min(1, width / naturalWidth, height / naturalHeight);
+          var x = Math.ceil(scaleFactor * naturalWidth);
+          var y = Math.ceil(scaleFactor * naturalHeight);
+          return {
+            backgroundSize: x + 'px ' + y + 'px'
+          };
+        }
+      }
+    };
 
     _this._onError = function () {
       var _this$props = _this.props,
@@ -171,7 +177,7 @@ var Image = function (_Component) {
       if (onError) {
         onError({
           nativeEvent: {
-            error: 'Failed to load resource ' + resolveAssetSource(source) + ' (404)'
+            error: 'Failed to load resource ' + resolveAssetUri(source) + ' (404)'
           }
         });
       }
@@ -184,7 +190,7 @@ var Image = function (_Component) {
           source = _this$props2.source;
 
       var event = { nativeEvent: e };
-      _ImageUriCache2.default.add(resolveAssetSource(source));
+      ImageUriCache.add(resolveAssetUri(source));
       _this._updateImageState(STATUS_LOADED);
       if (onLoad) {
         onLoad(event);
@@ -192,11 +198,16 @@ var Image = function (_Component) {
       _this._onLoadEnd();
     };
 
-    var uri = resolveAssetSource(props.source);
-    var shouldDisplaySource = _ImageUriCache2.default.has(uri);
-    _this.state = { shouldDisplaySource: shouldDisplaySource };
+    _this._setImageRef = function (ref) {
+      _this._imageRef = ref;
+    };
+
+    var uri = resolveAssetUri(props.source);
+    var shouldDisplaySource = ImageUriCache.has(uri);
+    _this.state = { layout: {}, shouldDisplaySource: shouldDisplaySource };
     _this._imageState = getImageState(uri, shouldDisplaySource);
-    shouldDisplaySource && _ImageUriCache2.default.add(uri);
+    _this._filterId = filterId;
+    filterId++;
     return _this;
   }
 
@@ -205,31 +216,27 @@ var Image = function (_Component) {
     if (this._imageState === STATUS_PENDING) {
       this._createImageLoader();
     } else if (this._imageState === STATUS_LOADED) {
-      var onLoad = this.props.onLoad;
-
-      onLoad && onLoad();
+      this._onLoad({ target: this._imageRef });
     }
   };
 
-  Image.prototype.componentDidUpdate = function componentDidUpdate() {
+  Image.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var prevUri = resolveAssetUri(prevProps.source);
+    var uri = resolveAssetUri(this.props.source);
+    if (prevUri !== uri) {
+      ImageUriCache.remove(prevUri);
+      var isPreviouslyLoaded = ImageUriCache.has(uri);
+      isPreviouslyLoaded && ImageUriCache.add(uri);
+      this._updateImageState(getImageState(uri, isPreviouslyLoaded));
+    }
     if (this._imageState === STATUS_PENDING) {
       this._createImageLoader();
     }
   };
 
-  Image.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    var uri = resolveAssetSource(this.props.source);
-    var nextUri = resolveAssetSource(nextProps.source);
-    if (uri !== nextUri) {
-      _ImageUriCache2.default.remove(uri);
-      var isPreviouslyLoaded = _ImageUriCache2.default.has(nextUri);
-      isPreviouslyLoaded && _ImageUriCache2.default.add(nextUri);
-      this._updateImageState(getImageState(nextUri, isPreviouslyLoaded));
-    }
-  };
-
   Image.prototype.componentWillUnmount = function componentWillUnmount() {
-    _ImageUriCache2.default.remove(resolveAssetSource(this.props.source));
+    var uri = resolveAssetUri(this.props.source);
+    ImageUriCache.remove(uri);
     this._destroyImageLoader();
     this._isMounted = false;
   };
@@ -240,40 +247,20 @@ var Image = function (_Component) {
     var _props = this.props,
         accessibilityLabel = _props.accessibilityLabel,
         accessible = _props.accessible,
+        blurRadius = _props.blurRadius,
         defaultSource = _props.defaultSource,
         draggable = _props.draggable,
-        onLayout = _props.onLayout,
         source = _props.source,
         testID = _props.testID,
-        blurRadius = _props.blurRadius,
         capInsets = _props.capInsets,
         onError = _props.onError,
+        onLayout = _props.onLayout,
         onLoad = _props.onLoad,
         onLoadEnd = _props.onLoadEnd,
         onLoadStart = _props.onLoadStart,
         resizeMethod = _props.resizeMethod,
         resizeMode = _props.resizeMode,
-        other = _objectWithoutProperties(_props, ['accessibilityLabel', 'accessible', 'defaultSource', 'draggable', 'onLayout', 'source', 'testID', 'blurRadius', 'capInsets', 'onError', 'onLoad', 'onLoadEnd', 'onLoadStart', 'resizeMethod', 'resizeMode']);
-
-    var displayImage = resolveAssetSource(shouldDisplaySource ? source : defaultSource);
-    var imageSizeStyle = resolveAssetDimensions(shouldDisplaySource ? source : defaultSource);
-    var backgroundImage = displayImage ? 'url("' + displayImage + '")' : null;
-    var originalStyle = _StyleSheet2.default.flatten(this.props.style);
-    var finalResizeMode = resizeMode || originalStyle.resizeMode || _ImageResizeMode2.default.cover;
-
-    var style = _StyleSheet2.default.flatten([styles.initial, imageSizeStyle, originalStyle, resizeModeStyles[finalResizeMode], this.context.isInAParentText && styles.inline, backgroundImage && { backgroundImage: backgroundImage }]);
-    // View doesn't support these styles
-    delete style.overlayColor;
-    delete style.resizeMode;
-    delete style.tintColor;
-
-    // Allows users to trigger the browser's image context menu
-    var hiddenImage = displayImage ? (0, _createElement2.default)('img', {
-      alt: accessibilityLabel || '',
-      draggable: draggable,
-      src: displayImage,
-      style: styles.img
-    }) : null;
+        other = _objectWithoutProperties(_props, ['accessibilityLabel', 'accessible', 'blurRadius', 'defaultSource', 'draggable', 'source', 'testID', 'capInsets', 'onError', 'onLayout', 'onLoad', 'onLoadEnd', 'onLoadStart', 'resizeMethod', 'resizeMode']);
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.src) {
@@ -285,40 +272,80 @@ var Image = function (_Component) {
       }
     }
 
-    return _react2.default.createElement(
-      _View2.default,
+    var selectedSource = shouldDisplaySource ? source : defaultSource;
+    var displayImageUri = resolveAssetUri(selectedSource);
+    var imageSizeStyle = resolveAssetDimensions(selectedSource);
+    var backgroundImage = displayImageUri ? 'url("' + displayImageUri + '")' : null;
+    var flatStyle = Object.assign({}, StyleSheet.flatten(this.props.style));
+    var finalResizeMode = resizeMode || flatStyle.resizeMode || ImageResizeMode.cover;
+
+    // CSS filters
+    var filters = [];
+    var tintColor = flatStyle.tintColor;
+    if (flatStyle.filter) {
+      filters.push(flatStyle.filter);
+    }
+    if (blurRadius) {
+      filters.push('blur(' + blurRadius + 'px)');
+    }
+    if (flatStyle.shadowOffset) {
+      var shadowString = resolveShadowValue(flatStyle);
+      if (shadowString) {
+        filters.push('drop-shadow(' + shadowString + ')');
+      }
+    }
+    if (flatStyle.tintColor) {
+      filters.push('url(#tint-' + this._filterId + ')');
+    }
+
+    // these styles were converted to filters
+    delete flatStyle.shadowColor;
+    delete flatStyle.shadowOpacity;
+    delete flatStyle.shadowOffset;
+    delete flatStyle.shadowRadius;
+    delete flatStyle.tintColor;
+    // these styles are not supported on View
+    delete flatStyle.overlayColor;
+    delete flatStyle.resizeMode;
+
+    // Accessibility image allows users to trigger the browser's image context menu
+    var hiddenImage = displayImageUri ? createElement('img', {
+      alt: accessibilityLabel || '',
+      draggable: draggable || false,
+      ref: this._setImageRef,
+      src: displayImageUri,
+      style: styles.accessibilityImage
+    }) : null;
+
+    return React.createElement(
+      View,
       _extends({}, other, {
         accessibilityLabel: accessibilityLabel,
         accessible: accessible,
-        onLayout: onLayout,
-        style: style,
+        onLayout: this._createLayoutHandler(finalResizeMode),
+        style: [styles.root, this.context.isInAParentText && styles.inline, imageSizeStyle, flatStyle],
         testID: testID
       }),
-      hiddenImage
+      React.createElement(View, {
+        style: [styles.image, resizeModeStyles[finalResizeMode], this._getBackgroundSize(finalResizeMode), backgroundImage && { backgroundImage: backgroundImage }, filters.length > 0 && { filter: filters.join(' ') }]
+      }),
+      hiddenImage,
+      createTintColorSVG(tintColor, this._filterId)
     );
   };
 
   Image.prototype._createImageLoader = function _createImageLoader() {
-    var _this2 = this;
-
     var source = this.props.source;
 
     this._destroyImageLoader();
-    this._loadRequest = (0, _requestIdleCallback2.default)(function () {
-      var uri = resolveAssetSource(source);
-      _this2._imageRequestId = _ImageLoader2.default.load(uri, _this2._onLoad, _this2._onError);
-      _this2._onLoadStart();
-    }, { timeout: getAssetTimeout(source) });
+    var uri = resolveAssetUri(source);
+    this._imageRequestId = ImageLoader.load(uri, this._onLoad, this._onError);
+    this._onLoadStart();
   };
 
   Image.prototype._destroyImageLoader = function _destroyImageLoader() {
-    if (this._loadRequest) {
-      (0, _requestIdleCallback.cancelIdleCallback)(this._loadRequest);
-      this._loadRequest = null;
-    }
-
     if (this._imageRequestId) {
-      _ImageLoader2.default.abort(this._imageRequestId);
+      ImageLoader.abort(this._imageRequestId);
       this._imageRequestId = null;
     }
   };
@@ -354,48 +381,55 @@ var Image = function (_Component) {
   };
 
   return Image;
-}(_react.Component);
+}(Component);
 
 Image.displayName = 'Image';
 Image.contextTypes = {
-  isInAParentText: _propTypes.bool
+  isInAParentText: bool
 };
 Image.defaultProps = {
   style: emptyObject
 };
-Image.resizeMode = _ImageResizeMode2.default;
-Image.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, _ViewPropTypes2.default, {
+Image.resizeMode = ImageResizeMode;
+Image.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, ViewPropTypes, {
+  blurRadius: number,
   defaultSource: ImageSourcePropType,
-  draggable: _propTypes.bool,
-  onError: _propTypes.func,
-  onLayout: _propTypes.func,
-  onLoad: _propTypes.func,
-  onLoadEnd: _propTypes.func,
-  onLoadStart: _propTypes.func,
-  resizeMode: (0, _propTypes.oneOf)(Object.keys(_ImageResizeMode2.default)),
+  draggable: bool,
+  onError: func,
+  onLayout: func,
+  onLoad: func,
+  onLoadEnd: func,
+  onLoadStart: func,
+  resizeMode: oneOf(Object.keys(ImageResizeMode)),
   source: ImageSourcePropType,
-  style: (0, _StyleSheetPropType2.default)(_ImageStylePropTypes2.default),
+  style: StyleSheetPropType(ImageStylePropTypes),
   // compatibility with React Native
   /* eslint-disable react/sort-prop-types */
-  blurRadius: _propTypes.number,
-  capInsets: (0, _propTypes.shape)({ top: _propTypes.number, left: _propTypes.number, bottom: _propTypes.number, right: _propTypes.number }),
-  resizeMethod: (0, _propTypes.oneOf)(['auto', 'resize', 'scale'])
+  capInsets: shape({ top: number, left: number, bottom: number, right: number }),
+  resizeMethod: oneOf(['auto', 'resize', 'scale'])
   /* eslint-enable react/sort-prop-types */
 }) : {};
 
 
-var styles = _StyleSheet2.default.create({
-  initial: {
-    backgroundColor: 'transparent',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
+var styles = StyleSheet.create({
+  root: {
+    flexBasis: 'auto',
+    overflow: 'hidden',
     zIndex: 0
   },
   inline: {
     display: 'inline-flex'
   },
-  img: Object.assign({}, _StyleSheet2.default.absoluteFillObject, {
+  image: Object.assign({}, StyleSheet.absoluteFillObject, {
+    backgroundColor: 'transparent',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    height: '100%',
+    width: '100%',
+    zIndex: -1
+  }),
+  accessibilityImage: Object.assign({}, StyleSheet.absoluteFillObject, {
     height: '100%',
     opacity: 0,
     width: '100%',
@@ -403,10 +437,9 @@ var styles = _StyleSheet2.default.create({
   })
 });
 
-var resizeModeStyles = _StyleSheet2.default.create({
+var resizeModeStyles = StyleSheet.create({
   center: {
-    backgroundSize: 'auto',
-    backgroundPosition: 'center'
+    backgroundSize: 'auto'
   },
   contain: {
     backgroundSize: 'contain'
@@ -415,15 +448,17 @@ var resizeModeStyles = _StyleSheet2.default.create({
     backgroundSize: 'cover'
   },
   none: {
+    backgroundPosition: '0 0',
     backgroundSize: 'auto'
   },
   repeat: {
-    backgroundSize: 'auto',
-    backgroundRepeat: 'repeat'
+    backgroundPosition: '0 0',
+    backgroundRepeat: 'repeat',
+    backgroundSize: 'auto'
   },
   stretch: {
     backgroundSize: '100% 100%'
   }
 });
 
-exports.default = (0, _applyNativeMethods2.default)(Image);
+export default applyNativeMethods(Image);

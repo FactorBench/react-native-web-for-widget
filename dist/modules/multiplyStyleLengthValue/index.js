@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  *
@@ -30,4 +27,4 @@ var multiplyStyleLengthValue = function multiplyStyleLengthValue(value, multiple
   }
 };
 
-exports.default = multiplyStyleLengthValue;
+export default multiplyStyleLengthValue;

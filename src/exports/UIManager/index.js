@@ -4,11 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule UIManager
  * @noflow
  */
 
-import setValueForStyles from '../../vendor/setValueForStyles';
+import setValueForStyles from '../../vendor/react-dom/setValueForStyles';
 
 const getRect = node => {
   const height = node.offsetHeight;
@@ -28,11 +27,13 @@ const getRect = node => {
 const measureLayout = (node, relativeToNativeNode, callback) => {
   const relativeNode = relativeToNativeNode || (node && node.parentNode);
   if (node && relativeNode) {
-    const relativeRect = getRect(relativeNode);
-    const { height, left, top, width } = getRect(node);
-    const x = left - relativeRect.left;
-    const y = top - relativeRect.top;
-    callback(x, y, width, height, left, top);
+    setTimeout(() => {
+      const relativeRect = getRect(relativeNode);
+      const { height, left, top, width } = getRect(node);
+      const x = left - relativeRect.left;
+      const y = top - relativeRect.top;
+      callback(x, y, width, height, left, top);
+    }, 0);
   }
 };
 
@@ -55,8 +56,10 @@ const UIManager = {
 
   measureInWindow(node, callback) {
     if (node) {
-      const { height, left, top, width } = getRect(node);
-      callback(left, top, width, height);
+      setTimeout(() => {
+        const { height, left, top, width } = getRect(node);
+        callback(left, top, width, height);
+      }, 0);
     }
   },
 
@@ -90,7 +93,14 @@ const UIManager = {
           node.setAttribute(prop, value);
       }
     }
-  }
+  },
+
+  configureNextLayoutAnimation(config, onAnimationDidEnd) {
+    onAnimationDidEnd();
+  },
+
+  // mocks
+  setLayoutAnimationEnabledExperimental() {}
 };
 
 export default UIManager;

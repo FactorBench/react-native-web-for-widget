@@ -22,7 +22,7 @@ if (canUseDOM) {
   if (typeof window.ResizeObserver !== 'undefined') {
     resizeObserver = new window.ResizeObserver(entries => {
       entries.forEach(({ target }) => {
-        const instance = registry[target._onLayoutId];
+        const instance = registry[target._layoutId];
         instance && instance._handleLayout();
       });
     });
@@ -52,23 +52,26 @@ const observe = instance => {
 
   if (resizeObserver) {
     const node = findNodeHandle(instance);
-    node._onLayoutId = id;
-    resizeObserver.observe(node);
+    if (node) {
+      node._layoutId = id;
+      resizeObserver.observe(node);
+    }
   } else {
-    const id = guid();
-    instance._onLayoutId = id;
+    instance._layoutId = id;
     instance._handleLayout();
   }
 };
 
 const unobserve = instance => {
-  delete registry[instance._onLayoutId];
+  delete registry[instance._layoutId];
   if (resizeObserver) {
     const node = findNodeHandle(instance);
-    delete node._onLayoutId;
-    resizeObserver.unobserve(node);
+    if (node) {
+      delete node._layoutId;
+      resizeObserver.unobserve(node);
+    }
   } else {
-    delete instance._onLayoutId;
+    delete instance._layoutId;
   }
 };
 
@@ -105,8 +108,6 @@ const applyLayout = Component => {
         observe(this);
       } else if (!this.props.onLayout && prevProps.onLayout) {
         unobserve(this);
-      } else if (!resizeObserver) {
-        this._handleLayout();
       }
     }
   );
@@ -125,17 +126,23 @@ const applyLayout = Component => {
 
     if (onLayout) {
       this.measure((x, y, width, height) => {
-        if (!this._isMounted) return;
-
-        if (
-          layout.x !== x ||
-          layout.y !== y ||
-          layout.width !== width ||
-          layout.height !== height
-        ) {
-          this._layoutState = { x, y, width, height };
-          const nativeEvent = { layout: this._layoutState };
-          onLayout({ nativeEvent, timeStamp: Date.now() });
+        if (this._isMounted) {
+          if (
+            layout.x !== x ||
+            layout.y !== y ||
+            layout.width !== width ||
+            layout.height !== height
+          ) {
+            this._layoutState = { x, y, width, height };
+            const nativeEvent = {
+              layout: this._layoutState
+            };
+            Object.defineProperty(nativeEvent, 'target', {
+              enumerable: true,
+              get: () => findNodeHandle(this)
+            });
+            onLayout({ nativeEvent, timeStamp: Date.now() });
+          }
         }
       });
     }

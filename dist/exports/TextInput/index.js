@@ -1,73 +1,36 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _applyLayout = require('../../modules/applyLayout');
-
-var _applyLayout2 = _interopRequireDefault(_applyLayout);
-
-var _applyNativeMethods = require('../../modules/applyNativeMethods');
-
-var _applyNativeMethods2 = _interopRequireDefault(_applyNativeMethods);
-
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-var _react = require('react');
-
-var _ColorPropType = require('../ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _createElement = require('../createElement');
-
-var _createElement2 = _interopRequireDefault(_createElement);
-
-var _findNodeHandle = require('../findNodeHandle');
-
-var _findNodeHandle2 = _interopRequireDefault(_findNodeHandle);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _StyleSheetPropType = require('../../modules/StyleSheetPropType');
-
-var _StyleSheetPropType2 = _interopRequireDefault(_StyleSheetPropType);
-
-var _TextInputStylePropTypes = require('./TextInputStylePropTypes');
-
-var _TextInputStylePropTypes2 = _interopRequireDefault(_TextInputStylePropTypes);
-
-var _TextInputState = require('../../modules/TextInputState');
-
-var _TextInputState2 = _interopRequireDefault(_TextInputState);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @providesModule TextInput
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var isAndroid = _ExecutionEnvironment.canUseDOM && /Android/i.test(navigator && navigator.userAgent);
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import applyLayout from '../../modules/applyLayout';
+import applyNativeMethods from '../../modules/applyNativeMethods';
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import { Component } from 'react';
+import ColorPropType from '../ColorPropType';
+import createElement from '../createElement';
+import findNodeHandle from '../findNodeHandle';
+import StyleSheet from '../StyleSheet';
+import StyleSheetPropType from '../../modules/StyleSheetPropType';
+import TextInputStylePropTypes from './TextInputStylePropTypes';
+import TextInputState from '../../modules/TextInputState';
+import ViewPropTypes from '../ViewPropTypes';
+import { any, bool, func, number, oneOf, shape, string } from 'prop-types';
+
+var isAndroid = canUseDOM && /Android/i.test(navigator && navigator.userAgent);
 var emptyObject = {};
 
 /**
@@ -135,7 +98,7 @@ var TextInput = function (_Component) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this._handleBlur = function (e) {
       var onBlur = _this.props.onBlur;
 
-      _TextInputState2.default._currentlyFocusedNode = null;
+      TextInputState._currentlyFocusedNode = null;
       if (onBlur) {
         onBlur(e);
       }
@@ -151,6 +114,7 @@ var TextInput = function (_Component) {
       if (onChangeText) {
         onChangeText(text);
       }
+      _this._handleSelectionChange(e);
     }, _this._handleFocus = function (e) {
       var _this$props2 = _this.props,
           clearTextOnFocus = _this$props2.clearTextOnFocus,
@@ -158,7 +122,7 @@ var TextInput = function (_Component) {
           selectTextOnFocus = _this$props2.selectTextOnFocus;
 
       var node = _this._node;
-      _TextInputState2.default._currentlyFocusedNode = _this._node;
+      TextInputState._currentlyFocusedNode = _this._node;
       if (onFocus) {
         onFocus(e);
       }
@@ -239,6 +203,8 @@ var TextInput = function (_Component) {
 
       if (!e.isDefaultPrevented() && e.which === 13 && !e.shiftKey) {
         if ((blurOnSubmit || !multiline) && onSubmitEditing) {
+          // prevent "Enter" from inserting a newline
+          e.preventDefault();
           e.nativeEvent = { target: e.target, text: e.target.value };
           onSubmitEditing(e);
         }
@@ -268,7 +234,7 @@ var TextInput = function (_Component) {
         } catch (e) {}
       }
     }, _this._setNode = function (component) {
-      _this._node = (0, _findNodeHandle2.default)(component);
+      _this._node = findNodeHandle(component);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -277,13 +243,13 @@ var TextInput = function (_Component) {
   };
 
   TextInput.prototype.isFocused = function isFocused() {
-    return _TextInputState2.default.currentlyFocusedField() === this._node;
+    return TextInputState.currentlyFocusedField() === this._node;
   };
 
   TextInput.prototype.componentDidMount = function componentDidMount() {
     setSelection(this._node, this.props.selection);
     if (document.activeElement === this._node) {
-      _TextInputState2.default._currentlyFocusedNode = this._node;
+      TextInputState._currentlyFocusedNode = this._node;
     }
   };
 
@@ -303,6 +269,7 @@ var TextInput = function (_Component) {
         blurOnSubmit = _props.blurOnSubmit,
         clearTextOnFocus = _props.clearTextOnFocus,
         onChangeText = _props.onChangeText,
+        onLayout = _props.onLayout,
         onSelectionChange = _props.onSelectionChange,
         onSubmitEditing = _props.onSubmitEditing,
         selection = _props.selection,
@@ -325,7 +292,7 @@ var TextInput = function (_Component) {
         selectionState = _props.selectionState,
         textBreakStrategy = _props.textBreakStrategy,
         underlineColorAndroid = _props.underlineColorAndroid,
-        otherProps = _objectWithoutProperties(_props, ['autoCorrect', 'editable', 'keyboardType', 'multiline', 'numberOfLines', 'secureTextEntry', 'style', 'blurOnSubmit', 'clearTextOnFocus', 'onChangeText', 'onSelectionChange', 'onSubmitEditing', 'selection', 'selectTextOnFocus', 'spellCheck', 'caretHidden', 'clearButtonMode', 'dataDetectorTypes', 'disableFullscreenUI', 'enablesReturnKeyAutomatically', 'inlineImageLeft', 'inlineImagePadding', 'keyboardAppearance', 'onContentSizeChange', 'onEndEditing', 'onScroll', 'returnKeyLabel', 'returnKeyType', 'selectionColor', 'selectionState', 'textBreakStrategy', 'underlineColorAndroid']);
+        otherProps = _objectWithoutProperties(_props, ['autoCorrect', 'editable', 'keyboardType', 'multiline', 'numberOfLines', 'secureTextEntry', 'style', 'blurOnSubmit', 'clearTextOnFocus', 'onChangeText', 'onLayout', 'onSelectionChange', 'onSubmitEditing', 'selection', 'selectTextOnFocus', 'spellCheck', 'caretHidden', 'clearButtonMode', 'dataDetectorTypes', 'disableFullscreenUI', 'enablesReturnKeyAutomatically', 'inlineImageLeft', 'inlineImagePadding', 'keyboardAppearance', 'onContentSizeChange', 'onEndEditing', 'onScroll', 'returnKeyLabel', 'returnKeyType', 'selectionColor', 'selectionState', 'textBreakStrategy', 'underlineColorAndroid']);
 
     var type = void 0;
 
@@ -378,11 +345,11 @@ var TextInput = function (_Component) {
       otherProps.type = type;
     }
 
-    return (0, _createElement2.default)(component, otherProps);
+    return createElement(component, otherProps);
   };
 
   return TextInput;
-}(_react.Component);
+}(Component);
 
 TextInput.displayName = 'TextInput';
 TextInput.defaultProps = {
@@ -396,65 +363,65 @@ TextInput.defaultProps = {
   secureTextEntry: false,
   style: emptyObject
 };
-TextInput.State = _TextInputState2.default;
-TextInput.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, _ViewPropTypes2.default, {
-  autoCapitalize: (0, _propTypes.oneOf)(['characters', 'none', 'sentences', 'words']),
-  autoComplete: _propTypes.string,
-  autoCorrect: _propTypes.bool,
-  autoFocus: _propTypes.bool,
-  blurOnSubmit: _propTypes.bool,
-  clearTextOnFocus: _propTypes.bool,
-  defaultValue: _propTypes.string,
-  editable: _propTypes.bool,
-  keyboardType: (0, _propTypes.oneOf)(['default', 'email-address', 'number-pad', 'numeric', 'phone-pad', 'search', 'url', 'web-search']),
-  maxLength: _propTypes.number,
-  multiline: _propTypes.bool,
-  numberOfLines: _propTypes.number,
-  onBlur: _propTypes.func,
-  onChange: _propTypes.func,
-  onChangeText: _propTypes.func,
-  onFocus: _propTypes.func,
-  onKeyPress: _propTypes.func,
-  onSelectionChange: _propTypes.func,
-  onSubmitEditing: _propTypes.func,
-  placeholder: _propTypes.string,
-  placeholderTextColor: _ColorPropType2.default,
-  secureTextEntry: _propTypes.bool,
-  selectTextOnFocus: _propTypes.bool,
-  selection: (0, _propTypes.shape)({
-    start: _propTypes.number.isRequired,
-    end: _propTypes.number
+TextInput.State = TextInputState;
+TextInput.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, ViewPropTypes, {
+  autoCapitalize: oneOf(['characters', 'none', 'sentences', 'words']),
+  autoComplete: string,
+  autoCorrect: bool,
+  autoFocus: bool,
+  blurOnSubmit: bool,
+  clearTextOnFocus: bool,
+  defaultValue: string,
+  editable: bool,
+  keyboardType: oneOf(['default', 'email-address', 'number-pad', 'numbers-and-punctuation', 'numeric', 'phone-pad', 'search', 'url', 'web-search']),
+  maxLength: number,
+  multiline: bool,
+  numberOfLines: number,
+  onBlur: func,
+  onChange: func,
+  onChangeText: func,
+  onFocus: func,
+  onKeyPress: func,
+  onSelectionChange: func,
+  onSubmitEditing: func,
+  placeholder: string,
+  placeholderTextColor: ColorPropType,
+  secureTextEntry: bool,
+  selectTextOnFocus: bool,
+  selection: shape({
+    start: number.isRequired,
+    end: number
   }),
-  spellCheck: _propTypes.bool,
-  style: (0, _StyleSheetPropType2.default)(_TextInputStylePropTypes2.default),
-  value: _propTypes.string,
+  spellCheck: bool,
+  style: StyleSheetPropType(TextInputStylePropTypes),
+  value: string,
   /* react-native compat */
   /* eslint-disable */
-  caretHidden: _propTypes.bool,
-  clearButtonMode: _propTypes.string,
-  dataDetectorTypes: _propTypes.string,
-  disableFullscreenUI: _propTypes.bool,
-  enablesReturnKeyAutomatically: _propTypes.bool,
-  keyboardAppearance: _propTypes.string,
-  inlineImageLeft: _propTypes.string,
-  inlineImagePadding: _propTypes.number,
-  onContentSizeChange: _propTypes.func,
-  onEndEditing: _propTypes.func,
-  onScroll: _propTypes.func,
-  returnKeyLabel: _propTypes.string,
-  returnKeyType: _propTypes.string,
-  selectionColor: _ColorPropType2.default,
-  selectionState: _propTypes.any,
-  textBreakStrategy: _propTypes.string,
-  underlineColorAndroid: _ColorPropType2.default
+  caretHidden: bool,
+  clearButtonMode: string,
+  dataDetectorTypes: string,
+  disableFullscreenUI: bool,
+  enablesReturnKeyAutomatically: bool,
+  keyboardAppearance: string,
+  inlineImageLeft: string,
+  inlineImagePadding: number,
+  onContentSizeChange: func,
+  onEndEditing: func,
+  onScroll: func,
+  returnKeyLabel: string,
+  returnKeyType: string,
+  selectionColor: ColorPropType,
+  selectionState: any,
+  textBreakStrategy: string,
+  underlineColorAndroid: ColorPropType
   /* eslint-enable */
 }) : {};
 
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   initial: {
     MozAppearance: 'textfield',
-    appearance: 'none',
+    WebkitAppearance: 'none',
     backgroundColor: 'transparent',
     borderColor: 'black',
     borderRadius: 0,
@@ -468,4 +435,4 @@ var styles = _StyleSheet2.default.create({
   }
 });
 
-exports.default = (0, _applyLayout2.default)((0, _applyNativeMethods2.default)(TextInput));
+export default applyLayout(applyNativeMethods(TextInput));

@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 var unitlessNumbers = {
   animationIterationCount: true,
   borderImageOutset: true,
@@ -59,4 +56,4 @@ Object.keys(unitlessNumbers).forEach(function (prop) {
   });
 });
 
-exports.default = unitlessNumbers;
+export default unitlessNumbers;

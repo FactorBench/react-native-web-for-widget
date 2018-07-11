@@ -1,44 +1,24 @@
-'use strict';
+/* eslint-disable react/prop-types */
 
-exports.__esModule = true;
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-var _AccessibilityUtil = require('../../modules/AccessibilityUtil');
-
-var _AccessibilityUtil2 = _interopRequireDefault(_AccessibilityUtil);
-
-var _BoundingDimensions = require('./BoundingDimensions');
-
-var _BoundingDimensions2 = _interopRequireDefault(_BoundingDimensions);
-
-var _findNodeHandle = require('../findNodeHandle');
-
-var _findNodeHandle2 = _interopRequireDefault(_findNodeHandle);
-
-var _normalizeCssColor = require('normalize-css-color');
-
-var _normalizeCssColor2 = _interopRequireDefault(_normalizeCssColor);
-
-var _Position = require('./Position');
-
-var _Position2 = _interopRequireDefault(_Position);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _TouchEventUtils = require('fbjs/lib/TouchEventUtils');
-
-var _TouchEventUtils2 = _interopRequireDefault(_TouchEventUtils);
-
-var _UIManager = require('../UIManager');
-
-var _UIManager2 = _interopRequireDefault(_UIManager);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import AccessibilityUtil from '../../modules/AccessibilityUtil';
+import BoundingDimensions from './BoundingDimensions';
+import findNodeHandle from '../findNodeHandle';
+import normalizeColor from 'normalize-css-color';
+import Position from './Position';
+import React from 'react';
+import TouchEventUtils from 'fbjs/lib/TouchEventUtils';
+import UIManager from '../UIManager';
+import View from '../View';
 
 /**
  * `Touchable`: Taps done right.
@@ -142,19 +122,6 @@ var States = {
 /**
  * Quick lookup map for states that are considered to be "active"
  */
-/* eslint-disable react/prop-types */
-
-/**
- * Copyright (c) 2016-present, Nicolas Gallagher.
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @providesModule Touchable
- * 
- */
-
 var IsActive = {
   RESPONDER_ACTIVE_PRESS_OUT: true,
   RESPONDER_ACTIVE_PRESS_IN: true
@@ -349,7 +316,7 @@ var TouchableMixin = {
   componentDidMount: function componentDidMount() {
     var _this = this;
 
-    this._touchableNode = (0, _findNodeHandle2.default)(this);
+    this._touchableNode = findNodeHandle(this);
     if (this._touchableNode && this._touchableNode.addEventListener) {
       this._touchableBlurListener = function (e) {
         if (_this._isTouchableKeyboardActive) {
@@ -491,7 +458,7 @@ var TouchableMixin = {
       pressExpandBottom += hitSlop.bottom;
     }
 
-    var touch = _TouchEventUtils2.default.extractSingleTouch(e.nativeEvent);
+    var touch = TouchEventUtils.extractSingleTouch(e.nativeEvent);
     var pageX = touch && touch.pageX;
     var pageY = touch && touch.pageY;
 
@@ -598,7 +565,7 @@ var TouchableMixin = {
       return;
     }
 
-    _UIManager2.default.measure(tag, this._handleQueryLayout);
+    UIManager.measure(tag, this._handleQueryLayout);
   },
 
   _handleQueryLayout: function _handleQueryLayout(x, y, width, height, globalX, globalY) {
@@ -606,13 +573,13 @@ var TouchableMixin = {
     if (!x && !y && !width && !height && !globalX && !globalY) {
       return;
     }
-    this.state.touchable.positionOnActivate && _Position2.default.release(this.state.touchable.positionOnActivate);
+    this.state.touchable.positionOnActivate && Position.release(this.state.touchable.positionOnActivate);
     this.state.touchable.dimensionsOnActivate &&
     // $FlowFixMe
-    _BoundingDimensions2.default.release(this.state.touchable.dimensionsOnActivate);
-    this.state.touchable.positionOnActivate = _Position2.default.getPooled(globalX, globalY);
+    BoundingDimensions.release(this.state.touchable.dimensionsOnActivate);
+    this.state.touchable.positionOnActivate = Position.getPooled(globalX, globalY);
     // $FlowFixMe
-    this.state.touchable.dimensionsOnActivate = _BoundingDimensions2.default.getPooled(width, height);
+    this.state.touchable.dimensionsOnActivate = BoundingDimensions.getPooled(width, height);
   },
 
   _handleDelay: function _handleDelay(e) {
@@ -667,7 +634,7 @@ var TouchableMixin = {
   },
 
   _savePressInLocation: function _savePressInLocation(e) {
-    var touch = _TouchEventUtils2.default.extractSingleTouch(e.nativeEvent);
+    var touch = TouchEventUtils.extractSingleTouch(e.nativeEvent);
     var pageX = touch && touch.pageX;
     var pageY = touch && touch.pageY;
     var locationX = touch && touch.locationX;
@@ -783,7 +750,7 @@ var TouchableMixin = {
       e.stopPropagation();
       // prevent the default behaviour unless the Touchable functions as a link
       // and Enter is pressed
-      if (!(which === ENTER && _AccessibilityUtil2.default.propsToAriaRole(this.props) === 'link')) {
+      if (!(which === ENTER && AccessibilityUtil.propsToAriaRole(this.props) === 'link')) {
         e.preventDefault();
       }
     }
@@ -809,8 +776,8 @@ var Touchable = {
       for (var key in hitSlop) {
         debugHitSlopStyle[key] = -hitSlop[key];
       }
-      var hexColor = '#' + ('00000000' + (0, _normalizeCssColor2.default)(color).toString(16)).substr(-8);
-      return _react2.default.createElement(_View2.default, {
+      var hexColor = '#' + ('00000000' + normalizeColor(color).toString(16)).substr(-8);
+      return React.createElement(View, {
         pointerEvents: 'none',
         style: Object.assign({
           position: 'absolute',
@@ -823,4 +790,4 @@ var Touchable = {
   }
 };
 
-exports.default = Touchable;
+export default Touchable;

@@ -1,25 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _isDisabled = require('./isDisabled');
-
-var _isDisabled2 = _interopRequireDefault(_isDisabled);
-
-var _propsToAccessibilityComponent = require('./propsToAccessibilityComponent');
-
-var _propsToAccessibilityComponent2 = _interopRequireDefault(_propsToAccessibilityComponent);
-
-var _propsToAriaRole = require('./propsToAriaRole');
-
-var _propsToAriaRole2 = _interopRequireDefault(_propsToAriaRole);
-
-var _propsToTabIndex = require('./propsToTabIndex');
-
-var _propsToTabIndex2 = _interopRequireDefault(_propsToTabIndex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2017-present, Nicolas Gallagher.
  *
@@ -29,11 +7,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
+import isDisabled from './isDisabled';
+import propsToAccessibilityComponent from './propsToAccessibilityComponent';
+import propsToAriaRole from './propsToAriaRole';
+
 var AccessibilityUtil = {
-  isDisabled: _isDisabled2.default,
-  propsToAccessibilityComponent: _propsToAccessibilityComponent2.default,
-  propsToAriaRole: _propsToAriaRole2.default,
-  propsToTabIndex: _propsToTabIndex2.default
+  isDisabled: isDisabled,
+  propsToAccessibilityComponent: propsToAccessibilityComponent,
+  propsToAriaRole: propsToAriaRole
 };
 
-exports.default = AccessibilityUtil;
+export default AccessibilityUtil;

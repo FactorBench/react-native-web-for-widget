@@ -1,15 +1,8 @@
-'use strict';
-
-exports.__esModule = true;
 
 
 var _vibrate = function _vibrate(pattern) {
   if ('vibrate' in window.navigator) {
-    if (typeof pattern === 'number' || Array.isArray(pattern)) {
-      window.navigator.vibrate(pattern);
-    } else {
-      throw new Error('Vibration pattern should be a number or array');
-    }
+    window.navigator.vibrate(pattern);
   }
 }; /**
     * Copyright (c) 2016-present, Nicolas Gallagher.
@@ -18,7 +11,6 @@ var _vibrate = function _vibrate(pattern) {
     * This source code is licensed under the MIT license found in the
     * LICENSE file in the root directory of this source tree.
     *
-    * @providesModule Vibration
     * 
     */
 
@@ -26,9 +18,11 @@ var Vibration = {
   cancel: function cancel() {
     _vibrate(0);
   },
-  vibrate: function vibrate(pattern) {
+  vibrate: function vibrate() {
+    var pattern = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 400;
+
     _vibrate(pattern);
   }
 };
 
-exports.default = Vibration;
+export default Vibration;

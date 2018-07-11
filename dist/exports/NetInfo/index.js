@@ -1,25 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-var _ExecutionEnvironment2 = _interopRequireDefault(_ExecutionEnvironment);
-
-var _arrayFindIndex = require('array-find-index');
-
-var _arrayFindIndex2 = _interopRequireDefault(_arrayFindIndex);
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var connection = _ExecutionEnvironment2.default.canUseDOM && (window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection);
-
-// Prevent the underlying event handlers from leaking and include additional
-// properties available in browsers
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -27,10 +5,17 @@ var connection = _ExecutionEnvironment2.default.canUseDOM && (window.navigator.c
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule NetInfo
  * 
  */
 
+import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
+import findIndex from 'array-find-index';
+import invariant from 'fbjs/lib/invariant';
+
+var connection = ExecutionEnvironment.canUseDOM && (window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection);
+
+// Prevent the underlying event handlers from leaking and include additional
+// properties available in browsers
 var getConnectionInfoObject = function getConnectionInfoObject() {
   var result = {
     effectiveType: 'unknown',
@@ -64,7 +49,7 @@ var netInfoListeners = [];
  */
 var NetInfo = {
   addEventListener: function addEventListener(type, handler) {
-    (0, _invariant2.default)(eventTypes.indexOf(type) !== -1, 'Trying to subscribe to unknown event: "%s"', type);
+    invariant(eventTypes.indexOf(type) !== -1, 'Trying to subscribe to unknown event: "%s"', type);
     if (type === 'change') {
       console.warn('Listening to event `change` is deprecated. Use `connectionChange` instead.');
     }
@@ -87,15 +72,15 @@ var NetInfo = {
     };
   },
   removeEventListener: function removeEventListener(type, handler) {
-    (0, _invariant2.default)(eventTypes.indexOf(type) !== -1, 'Trying to unsubscribe from unknown event: "%s"', type);
+    invariant(eventTypes.indexOf(type) !== -1, 'Trying to unsubscribe from unknown event: "%s"', type);
     if (type === 'change') {
       console.warn('Listening to event `change` is deprecated. Use `connectionChange` instead.');
     }
 
-    var listenerIndex = (0, _arrayFindIndex2.default)(netInfoListeners, function (pair) {
+    var listenerIndex = findIndex(netInfoListeners, function (pair) {
       return pair[0] === handler;
     });
-    (0, _invariant2.default)(listenerIndex !== -1, 'Trying to remove NetInfo listener for unregistered handler');
+    invariant(listenerIndex !== -1, 'Trying to remove NetInfo listener for unregistered handler');
     var _netInfoListeners$lis = netInfoListeners[listenerIndex],
         wrappedHandler = _netInfoListeners$lis[1];
 
@@ -121,7 +106,7 @@ var NetInfo = {
 
   isConnected: {
     addEventListener: function addEventListener(type, handler) {
-      (0, _invariant2.default)(eventTypes.indexOf(type) !== -1, 'Trying to subscribe to unknown event: "%s"', type);
+      invariant(eventTypes.indexOf(type) !== -1, 'Trying to subscribe to unknown event: "%s"', type);
       if (type === 'change') {
         console.warn('Listening to event `change` is deprecated. Use `connectionChange` instead.');
       }
@@ -144,15 +129,15 @@ var NetInfo = {
       };
     },
     removeEventListener: function removeEventListener(type, handler) {
-      (0, _invariant2.default)(eventTypes.indexOf(type) !== -1, 'Trying to subscribe to unknown event: "%s"', type);
+      invariant(eventTypes.indexOf(type) !== -1, 'Trying to subscribe to unknown event: "%s"', type);
       if (type === 'change') {
         console.warn('Listening to event `change` is deprecated. Use `connectionChange` instead.');
       }
 
-      var listenerIndex = (0, _arrayFindIndex2.default)(connectionListeners, function (pair) {
+      var listenerIndex = findIndex(connectionListeners, function (pair) {
         return pair[0] === handler;
       });
-      (0, _invariant2.default)(listenerIndex !== -1, 'Trying to remove NetInfo connection listener for unregistered handler');
+      invariant(listenerIndex !== -1, 'Trying to remove NetInfo connection listener for unregistered handler');
       var _connectionListeners$ = connectionListeners[listenerIndex],
           onlineCallback = _connectionListeners$[1],
           offlineCallback = _connectionListeners$[2];
@@ -164,10 +149,6 @@ var NetInfo = {
       connectionListeners.splice(listenerIndex, 1);
     },
     fetch: function fetch() {
-      console.warn('`fetch` is deprecated. Use `getConnectionInfo` instead.');
-      return NetInfo.isConnected.getConnectionInfo();
-    },
-    getConnectionInfo: function getConnectionInfo() {
       return new Promise(function (resolve, reject) {
         try {
           resolve(window.navigator.onLine);
@@ -179,4 +160,4 @@ var NetInfo = {
   }
 };
 
-exports.default = NetInfo;
+export default NetInfo;

@@ -1,32 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _debounce = require('debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -34,14 +6,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import debounce from 'debounce';
+import StyleSheet from '../StyleSheet';
+import View from '../View';
+import ViewPropTypes from '../ViewPropTypes';
+import React, { Component } from 'react';
+import { bool, func, number } from 'prop-types';
 
 var normalizeScrollEvent = function normalizeScrollEvent(e) {
   return {
@@ -91,7 +72,7 @@ var ScrollViewBase = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this._debouncedOnScrollEnd = (0, _debounce2.default)(_this._handleScrollEnd, 100), _this._state = { isScrolling: false, scrollLastTick: 0 }, _this._createPreventableScrollHandler = function (handler) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this._debouncedOnScrollEnd = debounce(_this._handleScrollEnd, 100), _this._state = { isScrolling: false, scrollLastTick: 0 }, _this._createPreventableScrollHandler = function (handler) {
       return function (e) {
         if (_this.props.scrollEnabled) {
           if (handler) {
@@ -168,12 +149,12 @@ var ScrollViewBase = function (_Component) {
         zoomScale = _props.zoomScale,
         other = _objectWithoutProperties(_props, ['scrollEnabled', 'style', 'alwaysBounceHorizontal', 'alwaysBounceVertical', 'automaticallyAdjustContentInsets', 'bounces', 'bouncesZoom', 'canCancelContentTouches', 'centerContent', 'contentInset', 'contentInsetAdjustmentBehavior', 'contentOffset', 'decelerationRate', 'directionalLockEnabled', 'endFillColor', 'indicatorStyle', 'keyboardShouldPersistTaps', 'maximumZoomScale', 'minimumZoomScale', 'onMomentumScrollBegin', 'onMomentumScrollEnd', 'onScrollBeginDrag', 'onScrollEndDrag', 'overScrollMode', 'pinchGestureEnabled', 'removeClippedSubviews', 'scrollEventThrottle', 'scrollIndicatorInsets', 'scrollPerfTag', 'scrollsToTop', 'showsHorizontalScrollIndicator', 'showsVerticalScrollIndicator', 'snapToInterval', 'snapToAlignment', 'zoomScale']);
 
-    return _react2.default.createElement(_View2.default, _extends({}, other, {
+    return React.createElement(View, _extends({}, other, {
       onScroll: this._handleScroll,
       onTouchMove: this._createPreventableScrollHandler(this.props.onTouchMove),
       onWheel: this._createPreventableScrollHandler(this.props.onWheel),
       ref: this._setViewRef,
-      style: [style, !scrollEnabled && styles.scrollDisabled]
+      style: StyleSheet.compose(style, !scrollEnabled && styles.scrollDisabled)
     }));
   };
 
@@ -206,7 +187,7 @@ var ScrollViewBase = function (_Component) {
   };
 
   return ScrollViewBase;
-}(_react.Component);
+}(Component);
 
 // Chrome doesn't support e.preventDefault in this case; touch-action must be
 // used to disable scrolling.
@@ -217,22 +198,22 @@ ScrollViewBase.defaultProps = {
   scrollEnabled: true,
   scrollEventThrottle: 0
 };
-exports.default = ScrollViewBase;
-ScrollViewBase.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, _ViewPropTypes2.default, {
-  onMomentumScrollBegin: _propTypes.func,
-  onMomentumScrollEnd: _propTypes.func,
-  onScroll: _propTypes.func,
-  onScrollBeginDrag: _propTypes.func,
-  onScrollEndDrag: _propTypes.func,
-  onTouchMove: _propTypes.func,
-  onWheel: _propTypes.func,
-  removeClippedSubviews: _propTypes.bool,
-  scrollEnabled: _propTypes.bool,
-  scrollEventThrottle: _propTypes.number,
-  showsHorizontalScrollIndicator: _propTypes.bool,
-  showsVerticalScrollIndicator: _propTypes.bool
+export default ScrollViewBase;
+ScrollViewBase.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, ViewPropTypes, {
+  onMomentumScrollBegin: func,
+  onMomentumScrollEnd: func,
+  onScroll: func,
+  onScrollBeginDrag: func,
+  onScrollEndDrag: func,
+  onTouchMove: func,
+  onWheel: func,
+  removeClippedSubviews: bool,
+  scrollEnabled: bool,
+  scrollEventThrottle: number,
+  showsHorizontalScrollIndicator: bool,
+  showsVerticalScrollIndicator: bool
 }) : {};
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   scrollDisabled: {
     touchAction: 'none'
   }

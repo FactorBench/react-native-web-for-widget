@@ -1,12 +1,14 @@
-'use strict';
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
-
-var _UIManager = require('../../exports/UIManager');
-
-var _UIManager2 = _interopRequireDefault(_UIManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import UIManager from '../../exports/UIManager';
 
 /**
  * This class is responsible for coordinating the "focused"
@@ -40,7 +42,7 @@ var TextInputState = {
     if (textFieldNode !== null) {
       this._currentlyFocusedNode = textFieldNode;
       if (document.activeElement !== textFieldNode) {
-        _UIManager2.default.focus(textFieldNode);
+        UIManager.focus(textFieldNode);
       }
     }
   },
@@ -55,19 +57,10 @@ var TextInputState = {
     if (textFieldNode !== null) {
       this._currentlyFocusedNode = null;
       if (document.activeElement === textFieldNode) {
-        _UIManager2.default.blur(textFieldNode);
+        UIManager.blur(textFieldNode);
       }
     }
   }
-}; /**
-    * Copyright (c) 2015-present, Nicolas Gallagher.
-    * Copyright (c) 2015-present, Facebook, Inc.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * @providesModule TextInputState
-    * 
-    */
+};
 
-exports.default = TextInputState;
+export default TextInputState;

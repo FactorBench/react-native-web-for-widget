@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2016-present, Nicolas Gallagher.
  *
@@ -55,7 +52,18 @@ var ImageLoader = {
     id += 1;
     var image = new window.Image();
     image.onerror = onError;
-    image.onload = onLoad;
+    image.onload = function (e) {
+      // avoid blocking the main thread
+      if (typeof image.decode === 'function') {
+        image.decode().then(function () {
+          onLoad(e);
+        });
+      } else {
+        setTimeout(function () {
+          onLoad(e);
+        }, 0);
+      }
+    };
     image.src = uri;
     requests['' + id] = image;
     return id;
@@ -67,4 +75,4 @@ var ImageLoader = {
   }
 };
 
-exports.default = ImageLoader;
+export default ImageLoader;

@@ -1,18 +1,19 @@
-'use strict';
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import invariant from 'fbjs/lib/invariant';
 
 function createStrictShapeTypeChecker(shapeTypes) {
   function checkType(isRequired, props, propName, componentName, location) {
     if (!props[propName]) {
       if (isRequired) {
-        (0, _invariant2.default)(false, 'Required object `' + propName + '` was not specified in `' + componentName + '`.');
+        invariant(false, 'Required object `' + propName + '` was not specified in `' + componentName + '`.');
       }
       return;
     }
@@ -20,7 +21,7 @@ function createStrictShapeTypeChecker(shapeTypes) {
     var propType = typeof propValue;
     var locationName = location || '(unknown)';
     if (propType !== 'object') {
-      (0, _invariant2.default)(false, 'Invalid ' + locationName + ' `' + propName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      invariant(false, 'Invalid ' + locationName + ' `' + propName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
     }
     // We need to check all keys in case some are required but missing from
     // props.
@@ -33,11 +34,11 @@ function createStrictShapeTypeChecker(shapeTypes) {
     for (var _key2 in allKeys) {
       var checker = shapeTypes[_key2];
       if (!checker) {
-        (0, _invariant2.default)(false, 'Invalid props.' + propName + ' key `' + _key2 + '` supplied to `' + componentName + '`.' + '\nBad object: ' + JSON.stringify(props[propName], null, '  ') + '\nValid keys: ' + JSON.stringify(Object.keys(shapeTypes), null, '  '));
+        invariant(false, 'Invalid props.' + propName + ' key `' + _key2 + '` supplied to `' + componentName + '`.' + '\nBad object: ' + JSON.stringify(props[propName], null, '  ') + '\nValid keys: ' + JSON.stringify(Object.keys(shapeTypes), null, '  '));
       }
       var error = checker.apply(undefined, [propValue, _key2, componentName, location].concat(rest));
       if (error) {
-        (0, _invariant2.default)(false, error.message + '\nBad object: ' + JSON.stringify(props[propName], null, '  '));
+        invariant(false, error.message + '\nBad object: ' + JSON.stringify(props[propName], null, '  '));
       }
     }
   }
@@ -50,14 +51,6 @@ function createStrictShapeTypeChecker(shapeTypes) {
   }
   chainedCheckType.isRequired = checkType.bind(null, true);
   return chainedCheckType;
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *
-   * @providesModule createStrictShapeTypeChecker
-   * 
-   */
+}
 
-exports.default = createStrictShapeTypeChecker;
+export default createStrictShapeTypeChecker;

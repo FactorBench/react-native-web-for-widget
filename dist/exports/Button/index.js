@@ -1,44 +1,24 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ColorPropType = require('../ColorPropType');
-
-var _ColorPropType2 = _interopRequireDefault(_ColorPropType);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _TouchableOpacity = require('../TouchableOpacity');
-
-var _TouchableOpacity2 = _interopRequireDefault(_TouchableOpacity);
-
-var _Text = require('../Text');
-
-var _Text2 = _interopRequireDefault(_Text);
-
-var _propTypes = require('prop-types');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @providesModule Button
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+import ColorPropType from '../ColorPropType';
+import StyleSheet from '../StyleSheet';
+import TouchableOpacity from '../TouchableOpacity';
+import Text from '../Text';
+import { bool, func, string } from 'prop-types';
+import React, { Component } from 'react';
 
 var Button = function (_Component) {
   _inherits(Button, _Component);
@@ -59,8 +39,8 @@ var Button = function (_Component) {
         title = _props.title;
 
 
-    return _react2.default.createElement(
-      _TouchableOpacity2.default,
+    return React.createElement(
+      TouchableOpacity,
       {
         accessibilityLabel: accessibilityLabel,
         accessibilityRole: 'button',
@@ -69,8 +49,8 @@ var Button = function (_Component) {
         style: [styles.button, color && { backgroundColor: color }, disabled && styles.buttonDisabled],
         testID: testID
       },
-      _react2.default.createElement(
-        _Text2.default,
+      React.createElement(
+        Text,
         { style: [styles.text, disabled && styles.textDisabled] },
         title
       )
@@ -78,19 +58,19 @@ var Button = function (_Component) {
   };
 
   return Button;
-}(_react.Component);
+}(Component);
 
 Button.propTypes = process.env.NODE_ENV !== "production" ? {
-  accessibilityLabel: _propTypes.string,
-  color: _ColorPropType2.default,
-  disabled: _propTypes.bool,
-  onPress: _propTypes.func.isRequired,
-  testID: _propTypes.string,
-  title: _propTypes.string.isRequired
+  accessibilityLabel: string,
+  color: ColorPropType,
+  disabled: bool,
+  onPress: func.isRequired,
+  testID: string,
+  title: string.isRequired
 } : {};
 
 
-var styles = _StyleSheet2.default.create({
+var styles = StyleSheet.create({
   button: {
     backgroundColor: '#2196F3',
     borderRadius: 2
@@ -110,4 +90,4 @@ var styles = _StyleSheet2.default.create({
   }
 });
 
-exports.default = Button;
+export default Button;

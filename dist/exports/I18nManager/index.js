@@ -1,24 +1,16 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
+import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-var _ExecutionEnvironment2 = _interopRequireDefault(_ExecutionEnvironment);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var doLeftAndRightSwapInRTL = true; /**
-                                     * Copyright (c) 2016-present, Nicolas Gallagher.
-                                     * Copyright (c) 2015-present, Facebook, Inc.
-                                     *
-                                     * This source code is licensed under the MIT license found in the
-                                     * LICENSE file in the root directory of this source tree.
-                                     *
-                                     * @providesModule I18nManager
-                                     * 
-                                     */
-
+var doLeftAndRightSwapInRTL = true;
 var isPreferredLanguageRTL = false;
 var isRTLAllowed = true;
 var isRTLForced = false;
@@ -31,7 +23,7 @@ var isRTL = function isRTL() {
 };
 
 var onDirectionChange = function onDirectionChange() {
-  if (_ExecutionEnvironment2.default.canUseDOM) {
+  if (ExecutionEnvironment.canUseDOM) {
     if (document.documentElement && document.documentElement.setAttribute) {
       document.documentElement.setAttribute('dir', isRTL() ? 'rtl' : 'ltr');
     }
@@ -63,4 +55,4 @@ var I18nManager = {
   }
 };
 
-exports.default = I18nManager;
+export default I18nManager;

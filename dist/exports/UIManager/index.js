@@ -1,12 +1,13 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
-
-var _setValueForStyles = require('../../vendor/setValueForStyles');
-
-var _setValueForStyles2 = _interopRequireDefault(_setValueForStyles);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import setValueForStyles from '../../vendor/react-dom/setValueForStyles';
 
 var getRect = function getRect(node) {
   var height = node.offsetHeight;
@@ -21,30 +22,24 @@ var getRect = function getRect(node) {
     node = node.offsetParent;
   }
   return { height: height, left: left, top: top, width: width };
-}; /**
-    * Copyright (c) 2016-present, Nicolas Gallagher.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * @providesModule UIManager
-    * @noflow
-    */
+};
 
 var _measureLayout = function _measureLayout(node, relativeToNativeNode, callback) {
   var relativeNode = relativeToNativeNode || node && node.parentNode;
   if (node && relativeNode) {
-    var relativeRect = getRect(relativeNode);
+    setTimeout(function () {
+      var relativeRect = getRect(relativeNode);
 
-    var _getRect = getRect(node),
-        height = _getRect.height,
-        left = _getRect.left,
-        top = _getRect.top,
-        width = _getRect.width;
+      var _getRect = getRect(node),
+          height = _getRect.height,
+          left = _getRect.left,
+          top = _getRect.top,
+          width = _getRect.width;
 
-    var x = left - relativeRect.left;
-    var y = top - relativeRect.top;
-    callback(x, y, width, height, left, top);
+      var x = left - relativeRect.left;
+      var y = top - relativeRect.top;
+      callback(x, y, width, height, left, top);
+    }, 0);
   }
 };
 
@@ -64,13 +59,15 @@ var UIManager = {
   },
   measureInWindow: function measureInWindow(node, callback) {
     if (node) {
-      var _getRect2 = getRect(node),
-          height = _getRect2.height,
-          left = _getRect2.left,
-          top = _getRect2.top,
-          width = _getRect2.width;
+      setTimeout(function () {
+        var _getRect2 = getRect(node),
+            height = _getRect2.height,
+            left = _getRect2.left,
+            top = _getRect2.top,
+            width = _getRect2.width;
 
-      callback(left, top, width, height);
+        callback(left, top, width, height);
+      }, 0);
     }
   },
   measureLayout: function measureLayout(node, relativeToNativeNode, onFail, onSuccess) {
@@ -86,7 +83,7 @@ var UIManager = {
       switch (prop) {
         case 'style':
           {
-            (0, _setValueForStyles2.default)(node, value, component._reactInternalInstance);
+            setValueForStyles(node, value, component._reactInternalInstance);
             break;
           }
         case 'class':
@@ -104,7 +101,14 @@ var UIManager = {
           node.setAttribute(prop, value);
       }
     }
-  }
+  },
+  configureNextLayoutAnimation: function configureNextLayoutAnimation(config, onAnimationDidEnd) {
+    onAnimationDidEnd();
+  },
+
+
+  // mocks
+  setLayoutAnimationEnabledExperimental: function setLayoutAnimationEnabledExperimental() {}
 };
 
-exports.default = UIManager;
+export default UIManager;

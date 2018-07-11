@@ -1,28 +1,17 @@
-'use strict';
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import debounce from 'debounce';
+import findNodeHandle from '../../exports/findNodeHandle';
 
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-var _debounce = require('debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _findNodeHandle = require('../../exports/findNodeHandle');
-
-var _findNodeHandle2 = _interopRequireDefault(_findNodeHandle);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var emptyObject = {}; /**
-                       * Copyright (c) 2015-present, Nicolas Gallagher.
-                       *
-                       * This source code is licensed under the MIT license found in the
-                       * LICENSE file in the root directory of this source tree.
-                       *
-                       * @noflow
-                       */
-
+var emptyObject = {};
 var registry = {};
 
 var id = 1;
@@ -31,13 +20,13 @@ var guid = function guid() {
 };
 
 var resizeObserver = void 0;
-if (_ExecutionEnvironment.canUseDOM) {
+if (canUseDOM) {
   if (typeof window.ResizeObserver !== 'undefined') {
     resizeObserver = new window.ResizeObserver(function (entries) {
       entries.forEach(function (_ref) {
         var target = _ref.target;
 
-        var instance = registry[target._onLayoutId];
+        var instance = registry[target._layoutId];
         instance && instance._handleLayout();
       });
     });
@@ -53,7 +42,7 @@ if (_ExecutionEnvironment.canUseDOM) {
       });
     };
 
-    window.addEventListener('resize', (0, _debounce2.default)(triggerAll, 16), false);
+    window.addEventListener('resize', debounce(triggerAll, 16), false);
   }
 }
 
@@ -62,24 +51,27 @@ var observe = function observe(instance) {
   registry[id] = instance;
 
   if (resizeObserver) {
-    var node = (0, _findNodeHandle2.default)(instance);
-    node._onLayoutId = id;
-    resizeObserver.observe(node);
+    var node = findNodeHandle(instance);
+    if (node) {
+      node._layoutId = id;
+      resizeObserver.observe(node);
+    }
   } else {
-    var _id = guid();
-    instance._onLayoutId = _id;
+    instance._layoutId = id;
     instance._handleLayout();
   }
 };
 
 var unobserve = function unobserve(instance) {
-  delete registry[instance._onLayoutId];
+  delete registry[instance._layoutId];
   if (resizeObserver) {
-    var node = (0, _findNodeHandle2.default)(instance);
-    delete node._onLayoutId;
-    resizeObserver.unobserve(node);
+    var node = findNodeHandle(instance);
+    if (node) {
+      delete node._layoutId;
+      resizeObserver.unobserve(node);
+    }
   } else {
-    delete instance._onLayoutId;
+    delete instance._layoutId;
   }
 };
 
@@ -111,8 +103,6 @@ var applyLayout = function applyLayout(Component) {
       observe(this);
     } else if (!this.props.onLayout && prevProps.onLayout) {
       unobserve(this);
-    } else if (!resizeObserver) {
-      this._handleLayout();
     }
   });
 
@@ -130,12 +120,20 @@ var applyLayout = function applyLayout(Component) {
 
     if (onLayout) {
       this.measure(function (x, y, width, height) {
-        if (!_this._isMounted) return;
-
-        if (layout.x !== x || layout.y !== y || layout.width !== width || layout.height !== height) {
-          _this._layoutState = { x: x, y: y, width: width, height: height };
-          var nativeEvent = { layout: _this._layoutState };
-          onLayout({ nativeEvent: nativeEvent, timeStamp: Date.now() });
+        if (_this._isMounted) {
+          if (layout.x !== x || layout.y !== y || layout.width !== width || layout.height !== height) {
+            _this._layoutState = { x: x, y: y, width: width, height: height };
+            var nativeEvent = {
+              layout: _this._layoutState
+            };
+            Object.defineProperty(nativeEvent, 'target', {
+              enumerable: true,
+              get: function get() {
+                return findNodeHandle(_this);
+              }
+            });
+            onLayout({ nativeEvent: nativeEvent, timeStamp: Date.now() });
+          }
         }
       });
     }
@@ -143,4 +141,4 @@ var applyLayout = function applyLayout(Component) {
   return Component;
 };
 
-exports.default = applyLayout;
+export default applyLayout;

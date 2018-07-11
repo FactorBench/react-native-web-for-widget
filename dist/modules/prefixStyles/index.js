@@ -1,18 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
-exports.prefixInlineStyles = undefined;
-
-var _createPrefixer = require('inline-style-prefixer/static/createPrefixer');
-
-var _createPrefixer2 = _interopRequireDefault(_createPrefixer);
-
-var _static = require('./static');
-
-var _static2 = _interopRequireDefault(_static);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  *
@@ -22,10 +7,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  */
 
-var prefixAll = (0, _createPrefixer2.default)(_static2.default);
+import createPrefixer from 'inline-style-prefixer/static/createPrefixer';
+import staticData from './static';
 
-exports.default = prefixAll;
-var prefixInlineStyles = exports.prefixInlineStyles = function prefixInlineStyles(style) {
+var prefixAll = createPrefixer(staticData);
+
+export default prefixAll;
+
+export var prefixInlineStyles = function prefixInlineStyles(style) {
   var prefixedStyles = prefixAll(style);
 
   // React@15 removed undocumented support for fallback values in

@@ -1,6 +1,3 @@
-"use strict";
-
-exports.__esModule = true;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var mapKeyValue = function mapKeyValue(obj, fn) {
@@ -14,4 +11,4 @@ var mapKeyValue = function mapKeyValue(obj, fn) {
   return result;
 };
 
-exports.default = mapKeyValue;
+export default mapKeyValue;

@@ -1,20 +1,15 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-exports.__esModule = true;
-
-var _flattenStyle = require('./flattenStyle');
-
-var _flattenStyle2 = _interopRequireDefault(_flattenStyle);
-
-var _getHairlineWidth = require('./getHairlineWidth');
-
-var _getHairlineWidth2 = _interopRequireDefault(_getHairlineWidth);
-
-var _ReactNativePropRegistry = require('../../modules/ReactNativePropRegistry');
-
-var _ReactNativePropRegistry2 = _interopRequireDefault(_ReactNativePropRegistry);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import StyleSheetValidation from './StyleSheetValidation';
+import ReactNativePropRegistry from '../../modules/ReactNativePropRegistry';
+import flattenStyle from './flattenStyle';
 
 var absoluteFillObject = {
   position: 'absolute',
@@ -22,17 +17,8 @@ var absoluteFillObject = {
   right: 0,
   top: 0,
   bottom: 0
-}; /**
-    * Copyright (c) 2016-present, Nicolas Gallagher.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * @providesModule StyleSheet
-    * @noflow
-    */
-
-var absoluteFill = _ReactNativePropRegistry2.default.register(absoluteFillObject);
+};
+var absoluteFill = ReactNativePropRegistry.register(absoluteFillObject);
 
 var StyleSheet = {
   absoluteFill: absoluteFill,
@@ -48,17 +34,16 @@ var StyleSheet = {
     var result = {};
     Object.keys(styles).forEach(function (key) {
       if (process.env.NODE_ENV !== 'production') {
-        var StyleSheetValidation = require('./StyleSheetValidation').default;
         StyleSheetValidation.validateStyle(key, styles);
       }
-      var id = styles[key] && _ReactNativePropRegistry2.default.register(styles[key]);
+      var id = styles[key] && ReactNativePropRegistry.register(styles[key]);
       result[key] = id;
     });
     return result;
   },
 
-  flatten: _flattenStyle2.default,
-  hairlineWidth: (0, _getHairlineWidth2.default)()
+  flatten: flattenStyle,
+  hairlineWidth: 1
 };
 
-exports.default = StyleSheet;
+export default StyleSheet;

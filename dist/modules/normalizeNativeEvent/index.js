@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Copyright (c) 2015-present, Nicolas Gallagher.
  *
@@ -176,4 +173,4 @@ function normalizeNativeEvent(nativeEvent) {
   }
 }
 
-exports.default = normalizeNativeEvent;
+export default normalizeNativeEvent;

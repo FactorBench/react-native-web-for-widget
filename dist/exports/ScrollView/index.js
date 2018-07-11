@@ -1,87 +1,56 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _createReactClass = require('create-react-class');
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-var _createReactClass2 = _interopRequireDefault(_createReactClass);
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
-var _dismissKeyboard = require('../../modules/dismissKeyboard');
-
-var _dismissKeyboard2 = _interopRequireDefault(_dismissKeyboard);
-
-var _findNodeHandle = require('../findNodeHandle');
-
-var _findNodeHandle2 = _interopRequireDefault(_findNodeHandle);
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
-
-var _ScrollResponder = require('../../modules/ScrollResponder');
-
-var _ScrollResponder2 = _interopRequireDefault(_ScrollResponder);
-
-var _ScrollViewBase = require('./ScrollViewBase');
-
-var _ScrollViewBase2 = _interopRequireDefault(_ScrollViewBase);
-
-var _StyleSheet = require('../StyleSheet');
-
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; } /**
-                                                                                                                                                                                                                              * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                                                                                              * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                              *
-                                                                                                                                                                                                                              * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                              * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                              *
-                                                                                                                                                                                                                              * @providesModule ScrollView
-                                                                                                                                                                                                                              * @noflow
-                                                                                                                                                                                                                              */
+import createReactClass from 'create-react-class';
+import dismissKeyboard from '../../modules/dismissKeyboard';
+import findNodeHandle from '../findNodeHandle';
+import invariant from 'fbjs/lib/invariant';
+import ScrollResponder from '../../modules/ScrollResponder';
+import ScrollViewBase from './ScrollViewBase';
+import StyleSheet from '../StyleSheet';
+import View from '../View';
+import ViewPropTypes from '../ViewPropTypes';
+import React from 'react';
+import { arrayOf, bool, element, func, number, oneOf } from 'prop-types';
 
 var emptyObject = {};
 
 /* eslint-disable react/prefer-es6-class, react/prop-types */
-var ScrollView = (0, _createReactClass2.default)({
+var ScrollView = createReactClass({
   displayName: 'ScrollView',
 
-  propTypes: Object.assign({}, _ViewPropTypes2.default, {
-    contentContainerStyle: _ViewPropTypes2.default.style,
-    horizontal: _propTypes.bool,
-    keyboardDismissMode: (0, _propTypes.oneOf)(['none', 'interactive', 'on-drag']),
-    onContentSizeChange: _propTypes.func,
-    onScroll: _propTypes.func,
-    pagingEnabled: _propTypes.bool,
-    refreshControl: _propTypes.element,
-    scrollEnabled: _propTypes.bool,
-    scrollEventThrottle: _propTypes.number,
-    style: _ViewPropTypes2.default.style
+  propTypes: Object.assign({}, ViewPropTypes, {
+    contentContainerStyle: ViewPropTypes.style,
+    horizontal: bool,
+    keyboardDismissMode: oneOf(['none', 'interactive', 'on-drag']),
+    onContentSizeChange: func,
+    onScroll: func,
+    pagingEnabled: bool,
+    refreshControl: element,
+    scrollEnabled: bool,
+    scrollEventThrottle: number,
+    stickyHeaderIndices: arrayOf(number),
+    style: ViewPropTypes.style
   }),
 
-  mixins: [_ScrollResponder2.default.Mixin],
+  mixins: [ScrollResponder.Mixin],
 
   getInitialState: function getInitialState() {
     return this.scrollResponderMixinGetInitialState();
+  },
+  flashScrollIndicators: function flashScrollIndicators() {
+    this.scrollResponderFlashScrollIndicators();
   },
   setNativeProps: function setNativeProps(props) {
     if (this._scrollViewRef) {
@@ -100,10 +69,10 @@ var ScrollView = (0, _createReactClass2.default)({
     return this;
   },
   getScrollableNode: function getScrollableNode() {
-    return (0, _findNodeHandle2.default)(this._scrollViewRef);
+    return findNodeHandle(this._scrollViewRef);
   },
   getInnerViewNode: function getInnerViewNode() {
-    return (0, _findNodeHandle2.default)(this._innerViewRef);
+    return findNodeHandle(this._innerViewRef);
   },
 
 
@@ -173,18 +142,18 @@ var ScrollView = (0, _createReactClass2.default)({
         horizontal = _props.horizontal,
         onContentSizeChange = _props.onContentSizeChange,
         refreshControl = _props.refreshControl,
+        stickyHeaderIndices = _props.stickyHeaderIndices,
         keyboardDismissMode = _props.keyboardDismissMode,
         onScroll = _props.onScroll,
         pagingEnabled = _props.pagingEnabled,
-        stickyHeaderIndices = _props.stickyHeaderIndices,
-        other = _objectWithoutProperties(_props, ['contentContainerStyle', 'horizontal', 'onContentSizeChange', 'refreshControl', 'keyboardDismissMode', 'onScroll', 'pagingEnabled', 'stickyHeaderIndices']);
+        other = _objectWithoutProperties(_props, ['contentContainerStyle', 'horizontal', 'onContentSizeChange', 'refreshControl', 'stickyHeaderIndices', 'keyboardDismissMode', 'onScroll', 'pagingEnabled']);
 
     if (process.env.NODE_ENV !== 'production' && this.props.style) {
-      var style = _StyleSheet2.default.flatten(this.props.style);
+      var style = StyleSheet.flatten(this.props.style);
       var childLayoutProps = ['alignItems', 'justifyContent'].filter(function (prop) {
         return style && style[prop] !== undefined;
       });
-      (0, _invariant2.default)(childLayoutProps.length === 0, 'ScrollView child layout (' + JSON.stringify(childLayoutProps) + ') ' + 'must be applied through the contentContainerStyle prop.');
+      invariant(childLayoutProps.length === 0, 'ScrollView child layout (' + JSON.stringify(childLayoutProps) + ') ' + 'must be applied through the contentContainerStyle prop.');
     }
 
     var contentSizeChangeProps = {};
@@ -194,15 +163,25 @@ var ScrollView = (0, _createReactClass2.default)({
       };
     }
 
-    var contentContainer = _react2.default.createElement(_View2.default, _extends({}, contentSizeChangeProps, {
-      children: this.props.children,
+    var children = !horizontal && Array.isArray(stickyHeaderIndices) ? React.Children.map(this.props.children, function (child, i) {
+      if (stickyHeaderIndices.indexOf(i) > -1) {
+        return React.cloneElement(child, { style: [child.props.style, styles.stickyHeader] });
+      } else {
+        return child;
+      }
+    }) : this.props.children;
+
+    var contentContainer = React.createElement(View, _extends({}, contentSizeChangeProps, {
+      children: children,
       collapsable: false,
       ref: this._setInnerViewRef,
       style: [horizontal && styles.contentContainerHorizontal, contentContainerStyle]
     }));
 
+    var baseStyle = horizontal ? styles.baseHorizontal : styles.baseVertical;
+
     var props = Object.assign({}, other, {
-      style: [styles.base, horizontal && styles.baseHorizontal, this.props.style],
+      style: [baseStyle, this.props.style],
       onTouchStart: this.scrollResponderHandleTouchStart,
       onTouchMove: this.scrollResponderHandleTouchMove,
       onTouchEnd: this.scrollResponderHandleTouchEnd,
@@ -221,19 +200,19 @@ var ScrollView = (0, _createReactClass2.default)({
       onResponderReject: this.scrollResponderHandleResponderReject
     });
 
-    var ScrollViewClass = _ScrollViewBase2.default;
+    var ScrollViewClass = ScrollViewBase;
 
-    (0, _invariant2.default)(ScrollViewClass !== undefined, 'ScrollViewClass must not be undefined');
+    invariant(ScrollViewClass !== undefined, 'ScrollViewClass must not be undefined');
 
     if (refreshControl) {
-      return _react2.default.cloneElement(refreshControl, { style: props.style }, _react2.default.createElement(
+      return React.cloneElement(refreshControl, { style: props.style }, React.createElement(
         ScrollViewClass,
-        _extends({}, props, { ref: this._setScrollViewRef, style: styles.base }),
+        _extends({}, props, { ref: this._setScrollViewRef, style: baseStyle }),
         contentContainer
       ));
     }
 
-    return _react2.default.createElement(
+    return React.createElement(
       ScrollViewClass,
       _extends({}, props, { ref: this._setScrollViewRef, style: props.style }),
       contentContainer
@@ -254,7 +233,7 @@ var ScrollView = (0, _createReactClass2.default)({
     }
 
     if (this.props.keyboardDismissMode === 'on-drag') {
-      (0, _dismissKeyboard2.default)();
+      dismissKeyboard();
     }
 
     this.scrollResponderHandleScroll(e);
@@ -267,25 +246,39 @@ var ScrollView = (0, _createReactClass2.default)({
   }
 });
 
-var styles = _StyleSheet2.default.create({
-  base: {
-    flex: 1,
+var commonStyle = {
+  flexGrow: 1,
+  flexShrink: 1,
+  overscrollBehavior: 'contain',
+  // Enable hardware compositing in modern browsers.
+  // Creates a new layer with its own backing surface that can significantly
+  // improve scroll performance.
+  transform: [{ translateZ: 0 }],
+  // iOS native scrolling
+  WebkitOverflowScrolling: 'touch'
+};
+
+var styles = StyleSheet.create({
+  baseVertical: Object.assign({}, commonStyle, {
+    flexDirection: 'column',
     overflowX: 'hidden',
     overflowY: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    // Enable hardware compositing in modern browsers.
-    // Creates a new layer with its own backing surface that can significantly
-    // improve scroll performance.
-    transform: [{ translateZ: 0 }]
-  },
-  baseHorizontal: {
+    touchAction: 'pan-y'
+  }),
+  baseHorizontal: Object.assign({}, commonStyle, {
     flexDirection: 'row',
     overflowX: 'auto',
-    overflowY: 'hidden'
-  },
+    overflowY: 'hidden',
+    touchAction: 'pan-x'
+  }),
   contentContainerHorizontal: {
     flexDirection: 'row'
+  },
+  stickyHeader: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10
   }
 });
 
-exports.default = ScrollView;
+export default ScrollView;

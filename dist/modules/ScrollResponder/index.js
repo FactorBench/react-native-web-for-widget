@@ -1,36 +1,20 @@
-'use strict';
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
-
-var _Dimensions = require('../../exports/Dimensions');
-
-var _Dimensions2 = _interopRequireDefault(_Dimensions);
-
-var _findNodeHandle = require('../../exports/findNodeHandle');
-
-var _findNodeHandle2 = _interopRequireDefault(_findNodeHandle);
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
-
-var _Platform = require('../../exports/Platform');
-
-var _Platform2 = _interopRequireDefault(_Platform);
-
-var _TextInputState = require('../TextInputState');
-
-var _TextInputState2 = _interopRequireDefault(_TextInputState);
-
-var _UIManager = require('../../exports/UIManager');
-
-var _UIManager2 = _interopRequireDefault(_UIManager);
-
-var _warning = require('fbjs/lib/warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import Dimensions from '../../exports/Dimensions';
+import findNodeHandle from '../../exports/findNodeHandle';
+import invariant from 'fbjs/lib/invariant';
+import Platform from '../../exports/Platform';
+import TextInputState from '../TextInputState';
+import UIManager from '../../exports/UIManager';
+import warning from 'fbjs/lib/warning';
 
 /**
  * Mixin that can be integrated in order to handle scrolling that plays well
@@ -110,16 +94,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *   this.props.onKeyboardDidHide
  */
 
-var emptyObject = {}; /**
-                       * Copyright (c) 2016-present, Nicolas Gallagher.
-                       * Copyright (c) 2015-present, Facebook, Inc.
-                       *
-                       * This source code is licensed under the MIT license found in the
-                       * LICENSE file in the root directory of this source tree.
-                       *
-                       * @providesModule ScrollResponder
-                       * 
-                       */
+var emptyObject = {};
 
 var IS_ANIMATING_TOUCH_START_THRESHOLD_MS = 16;
 
@@ -210,7 +185,7 @@ var ScrollResponderMixin = {
    * a touch has already started.
    */
   scrollResponderHandleResponderReject: function scrollResponderHandleResponderReject() {
-    (0, _warning2.default)(false, "ScrollView doesn't take rejection well - scrolls anyway");
+    warning(false, "ScrollView doesn't take rejection well - scrolls anyway");
   },
 
   /**
@@ -251,10 +226,10 @@ var ScrollResponderMixin = {
 
     // By default scroll views will unfocus a textField
     // if another touch occurs outside of it
-    var currentlyFocusedTextInput = _TextInputState2.default.currentlyFocusedField();
+    var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
     if (!this.props.keyboardShouldPersistTaps && currentlyFocusedTextInput != null && e.target !== currentlyFocusedTextInput && !this.state.observedScrollSinceBecomingResponder && !this.state.becameResponderWhileAnimating) {
       this.props.onScrollResponderKeyboardDismissed && this.props.onScrollResponderKeyboardDismissed(e);
-      _TextInputState2.default.blurTextInput(currentlyFocusedTextInput);
+      TextInputState.blurTextInput(currentlyFocusedTextInput);
     }
   },
 
@@ -355,7 +330,7 @@ var ScrollResponderMixin = {
    * function otherwise `this` is used.
    */
   scrollResponderGetScrollableNode: function scrollResponderGetScrollableNode() {
-    return this.getScrollableNode ? this.getScrollableNode() : (0, _findNodeHandle2.default)(this);
+    return this.getScrollableNode ? this.getScrollableNode() : findNodeHandle(this);
   },
 
   /**
@@ -380,7 +355,7 @@ var ScrollResponderMixin = {
       animated = _ref.animated;
     }
     var node = this.scrollResponderGetScrollableNode();
-    _UIManager2.default.updateView(node, { style: { scrollBehavior: !animated ? 'auto' : 'smooth' } }, this);
+    UIManager.updateView(node, { style: { scrollBehavior: !animated ? 'auto' : 'smooth' } }, this);
     node.scrollLeft = x || 0;
     node.scrollTop = y || 0;
   },
@@ -401,10 +376,15 @@ var ScrollResponderMixin = {
    */
   scrollResponderZoomTo: function scrollResponderZoomTo(rect, animated // deprecated, put this inside the rect argument instead
   ) {
-    if (_Platform2.default.OS !== 'ios') {
-      (0, _invariant2.default)('zoomToRect is not implemented');
+    if (Platform.OS !== 'ios') {
+      invariant('zoomToRect is not implemented');
     }
   },
+
+  /**
+   * Displays the scroll indicators momentarily.
+   */
+  scrollResponderFlashScrollIndicators: function scrollResponderFlashScrollIndicators() {},
 
   /**
    * This method should be used as the callback to onFocus in a TextInputs'
@@ -419,7 +399,7 @@ var ScrollResponderMixin = {
   scrollResponderScrollNativeHandleToKeyboard: function scrollResponderScrollNativeHandleToKeyboard(nodeHandle, additionalOffset, preventNegativeScrollOffset) {
     this.additionalScrollOffset = additionalOffset || 0;
     this.preventNegativeScrollOffset = !!preventNegativeScrollOffset;
-    _UIManager2.default.measureLayout(nodeHandle, (0, _findNodeHandle2.default)(this.getInnerViewNode()), this.scrollResponderTextInputFocusError, this.scrollResponderInputMeasureAndScrollToKeyboard);
+    UIManager.measureLayout(nodeHandle, findNodeHandle(this.getInnerViewNode()), this.scrollResponderTextInputFocusError, this.scrollResponderInputMeasureAndScrollToKeyboard);
   },
 
   /**
@@ -433,7 +413,7 @@ var ScrollResponderMixin = {
    * @param {number} height Height of the text input.
    */
   scrollResponderInputMeasureAndScrollToKeyboard: function scrollResponderInputMeasureAndScrollToKeyboard(left, top, width, height) {
-    var keyboardScreenY = _Dimensions2.default.get('window').height;
+    var keyboardScreenY = Dimensions.get('window').height;
     if (this.keyboardWillOpenTo) {
       keyboardScreenY = this.keyboardWillOpenTo.endCoordinates.screenY;
     }
@@ -528,4 +508,4 @@ var ScrollResponder = {
   Mixin: ScrollResponderMixin
 };
 
-exports.default = ScrollResponder;
+export default ScrollResponder;

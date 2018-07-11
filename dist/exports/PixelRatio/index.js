@@ -1,27 +1,21 @@
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.__esModule = true;
+/**
+ * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-var _Dimensions = require('../Dimensions');
-
-var _Dimensions2 = _interopRequireDefault(_Dimensions);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                                                                                           * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                           *
-                                                                                                                                                           * This source code is licensed under the MIT license found in the
-                                                                                                                                                           * LICENSE file in the root directory of this source tree.
-                                                                                                                                                           *
-                                                                                                                                                           * @providesModule PixelRatio
-                                                                                                                                                           * 
-                                                                                                                                                           */
+import Dimensions from '../Dimensions';
 
 /**
  * PixelRatio gives access to the device pixel density.
  */
+
 var PixelRatio = function () {
   function PixelRatio() {
     _classCallCheck(this, PixelRatio);
@@ -31,7 +25,7 @@ var PixelRatio = function () {
    * Returns the device pixel density.
    */
   PixelRatio.get = function get() {
-    return _Dimensions2.default.get('window').scale;
+    return Dimensions.get('window').scale;
   };
 
   /**
@@ -40,7 +34,7 @@ var PixelRatio = function () {
 
 
   PixelRatio.getFontScale = function getFontScale() {
-    return _Dimensions2.default.get('window').fontScale || PixelRatio.get();
+    return Dimensions.get('window').fontScale || PixelRatio.get();
   };
 
   /**
@@ -69,4 +63,4 @@ var PixelRatio = function () {
   return PixelRatio;
 }();
 
-exports.default = PixelRatio;
+export default PixelRatio;

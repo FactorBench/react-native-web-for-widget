@@ -1,12 +1,13 @@
-'use strict';
+/**
+ * Copyright (c) 2017-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
-exports.__esModule = true;
-
-var _propsToAriaRole = require('./propsToAriaRole');
-
-var _propsToAriaRole2 = _interopRequireDefault(_propsToAriaRole);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import propsToAriaRole from './propsToAriaRole';
 
 var roleComponents = {
   article: 'article',
@@ -21,21 +22,14 @@ var roleComponents = {
   main: 'main',
   navigation: 'nav',
   region: 'section'
-}; /**
-    * Copyright (c) 2017-present, Nicolas Gallagher.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * 
-    */
+};
 
 var emptyObject = {};
 
 var propsToAccessibilityComponent = function propsToAccessibilityComponent() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : emptyObject;
 
-  var role = (0, _propsToAriaRole2.default)(props);
+  var role = propsToAriaRole(props);
   if (role) {
     if (role === 'heading') {
       var level = props['aria-level'] || 1;
@@ -45,4 +39,4 @@ var propsToAccessibilityComponent = function propsToAccessibilityComponent() {
   }
 };
 
-exports.default = propsToAccessibilityComponent;
+export default propsToAccessibilityComponent;

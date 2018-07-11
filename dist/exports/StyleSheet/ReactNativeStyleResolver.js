@@ -1,50 +1,27 @@
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.__esModule = true;
-
-var _ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-var _createReactDOMStyle = require('./createReactDOMStyle');
-
-var _createReactDOMStyle2 = _interopRequireDefault(_createReactDOMStyle);
-
-var _flattenArray = require('../../modules/flattenArray');
-
-var _flattenArray2 = _interopRequireDefault(_flattenArray);
-
-var _flattenStyle = require('./flattenStyle');
-
-var _flattenStyle2 = _interopRequireDefault(_flattenStyle);
-
-var _I18nManager = require('../I18nManager');
-
-var _I18nManager2 = _interopRequireDefault(_I18nManager);
-
-var _i18nStyle = require('./i18nStyle');
-
-var _i18nStyle2 = _interopRequireDefault(_i18nStyle);
-
-var _prefixStyles = require('../../modules/prefixStyles');
-
-var _StyleSheetManager = require('./StyleSheetManager');
-
-var _StyleSheetManager2 = _interopRequireDefault(_StyleSheetManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Copyright (c) 2016-present, Nicolas Gallagher.
-                                                                                                                                                           *
-                                                                                                                                                           * This source code is licensed under the MIT license found in the
-                                                                                                                                                           * LICENSE file in the root directory of this source tree.
-                                                                                                                                                           *
-                                                                                                                                                           * @noflow
-                                                                                                                                                           */
+/**
+ * Copyright (c) 2016-present, Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @noflow
+ */
 
 /**
  * WARNING: changes to this file in particular can cause significant changes to
  * the results of render performance benchmarks.
  */
+
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import createReactDOMStyle from './createReactDOMStyle';
+import flattenArray from '../../modules/flattenArray';
+import flattenStyle from './flattenStyle';
+import I18nManager from '../I18nManager';
+import i18nStyle from './i18nStyle';
+import { prefixInlineStyles } from '../../modules/prefixStyles';
+import StyleSheetManager from './StyleSheetManager';
 
 var emptyObject = {};
 
@@ -52,7 +29,7 @@ var ReactNativeStyleResolver = function () {
   ReactNativeStyleResolver.prototype._init = function _init() {
     this.cache = { ltr: {}, rtl: {}, rtlNoSwap: {} };
     this.injectedCache = { ltr: {}, rtl: {}, rtlNoSwap: {} };
-    this.styleSheetManager = new _StyleSheetManager2.default();
+    this.styleSheetManager = new StyleSheetManager();
   };
 
   function ReactNativeStyleResolver() {
@@ -64,7 +41,7 @@ var ReactNativeStyleResolver = function () {
   ReactNativeStyleResolver.prototype.getStyleSheet = function getStyleSheet() {
     // reset state on the server so critical css is always the result
     var sheet = this.styleSheetManager.getStyleSheet();
-    if (!_ExecutionEnvironment.canUseDOM) {
+    if (!canUseDOM) {
       this._init();
     }
     return sheet;
@@ -73,13 +50,13 @@ var ReactNativeStyleResolver = function () {
   ReactNativeStyleResolver.prototype._injectRegisteredStyle = function _injectRegisteredStyle(id) {
     var _this = this;
 
-    var doLeftAndRightSwapInRTL = _I18nManager2.default.doLeftAndRightSwapInRTL,
-        isRTL = _I18nManager2.default.isRTL;
+    var doLeftAndRightSwapInRTL = I18nManager.doLeftAndRightSwapInRTL,
+        isRTL = I18nManager.isRTL;
 
     var dir = isRTL ? doLeftAndRightSwapInRTL ? 'rtl' : 'rtlNoSwap' : 'ltr';
     if (!this.injectedCache[dir][id]) {
-      var style = (0, _flattenStyle2.default)(id);
-      var domStyle = (0, _createReactDOMStyle2.default)((0, _i18nStyle2.default)(style));
+      var style = flattenStyle(id);
+      var domStyle = createReactDOMStyle(i18nStyle(style));
       Object.keys(domStyle).forEach(function (styleProp) {
         var value = domStyle[styleProp];
         if (value != null) {
@@ -115,7 +92,7 @@ var ReactNativeStyleResolver = function () {
     // flatten the style array
     // cache resolved props when all styles are registered
     // otherwise fallback to resolving
-    var flatArray = (0, _flattenArray2.default)(style);
+    var flatArray = flattenArray(style);
     var isArrayOfNumbers = true;
     for (var i = 0; i < flatArray.length; i++) {
       var id = flatArray[i];
@@ -166,7 +143,7 @@ var ReactNativeStyleResolver = function () {
     // Create next DOM style props from current and next RN styles
 
 
-    var _resolve = this.resolve([(0, _i18nStyle2.default)(rnStyle), rnStyleNext]),
+    var _resolve = this.resolve([i18nStyle(rnStyle), rnStyleNext]),
         rdomClassListNext = _resolve.classList,
         rdomStyleNext = _resolve.style;
 
@@ -201,8 +178,8 @@ var ReactNativeStyleResolver = function () {
   ReactNativeStyleResolver.prototype._resolveStyle = function _resolveStyle(style) {
     var _this3 = this;
 
-    var flatStyle = (0, _flattenStyle2.default)(style);
-    var domStyle = (0, _createReactDOMStyle2.default)((0, _i18nStyle2.default)(flatStyle));
+    var flatStyle = flattenStyle(style);
+    var domStyle = createReactDOMStyle(i18nStyle(flatStyle));
 
     var props = Object.keys(domStyle).reduce(function (props, styleProp) {
       var value = domStyle[styleProp];
@@ -233,7 +210,7 @@ var ReactNativeStyleResolver = function () {
 
     props.className = classListToString(props.classList);
     if (props.style) {
-      props.style = (0, _prefixStyles.prefixInlineStyles)(props.style);
+      props.style = prefixInlineStyles(props.style);
     }
     return props;
   };
@@ -245,8 +222,8 @@ var ReactNativeStyleResolver = function () {
 
   ReactNativeStyleResolver.prototype._resolveStyleIfNeeded = function _resolveStyleIfNeeded(style, key) {
     if (key) {
-      var doLeftAndRightSwapInRTL = _I18nManager2.default.doLeftAndRightSwapInRTL,
-          isRTL = _I18nManager2.default.isRTL;
+      var doLeftAndRightSwapInRTL = I18nManager.doLeftAndRightSwapInRTL,
+          isRTL = I18nManager.isRTL;
 
       var dir = isRTL ? doLeftAndRightSwapInRTL ? 'rtl' : 'rtlNoSwap' : 'ltr';
       if (!this.cache[dir][key]) {
@@ -266,7 +243,7 @@ var ReactNativeStyleResolver = function () {
  */
 
 
-exports.default = ReactNativeStyleResolver;
+export default ReactNativeStyleResolver;
 var createCacheKey = function createCacheKey(id) {
   var prefix = 'rn';
   return prefix + '-' + id;
